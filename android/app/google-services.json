@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1051635045248",
+    "project_id": "meqamax-9ef70",
+    "storage_bucket": "meqamax-9ef70.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1051635045248:android:4b0412ec5c44ce531ba765",
+        "android_client_info": {
+          "package_name": "az.masterstudio.meqamax"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbaickXqCZmadLhAujth9vzX1E_4YlTX8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
