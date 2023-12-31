@@ -9,7 +9,7 @@ import 'package:meqamax/widgets/svg_icon.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:meqamax/classes/connection.dart';
 import 'package:meqamax/themes/theme.dart';
-import 'package:meqamax/widgets/behaviour.dart';
+import 'package:meqamax/widgets_extra/behaviour.dart';
 import 'package:meqamax/widgets/container.dart';
 import 'package:meqamax/widgets/html.dart';
 import 'package:meqamax/widgets/refresh_indicator.dart';

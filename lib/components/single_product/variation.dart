@@ -101,6 +101,7 @@ class _VariationProductState extends State<VariationProduct> with TickerProvider
               color: (widget.attention) ? Colors.red : Theme.of(context).colorScheme.secondaryBg,
             )),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ListView.separated(
                 physics: NeverScrollableScrollPhysics(),
@@ -241,12 +242,18 @@ class _VariationProductState extends State<VariationProduct> with TickerProvider
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: 15.0),
-                  displayPrice(price, salePrice, type: 'Large'),
+                  displayPrice({'price': price, 'final_price': salePrice}, type: 'Large'),
                   if (stock != '' && stock != '0') ...[
-                    Text('product_stock'.trParams({
-                      'count': stock.toString(),
-                    }))
+                    SizedBox(height: 5.0),
+                    Text(
+                      'product_stock'.trParams(
+                        {
+                          'count': stock.toString(),
+                        },
+                      ),
+                    )
                   ] else if (stock == '0') ...[
+                    SizedBox(height: 5.0),
                     Text('Məhsul bitib'.tr)
                   ]
                 ],

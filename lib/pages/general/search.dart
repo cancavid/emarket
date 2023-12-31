@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:meqamax/components/app/appbar_back_button.dart';
 import 'package:meqamax/components/products/load_products.dart';
 import 'package:meqamax/themes/theme.dart';
-import 'package:meqamax/widgets/behaviour.dart';
+import 'package:meqamax/widgets_extra/behaviour.dart';
 import 'package:meqamax/widgets/svg_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';

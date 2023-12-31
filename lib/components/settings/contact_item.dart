@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:meqamax/widgets/snackbar.dart';
+import 'package:meqamax/widgets_extra/snackbar.dart';
 import 'package:meqamax/widgets/svg_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -50,7 +50,7 @@ class ContactItem extends StatelessWidget {
                     width: 50.0,
                     height: 50.0,
                     decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.bg,
+                      color: Theme.of(context).colorScheme.secondaryBg,
                       borderRadius: BorderRadius.circular(50.0),
                     ),
                     child: MsSvgIcon(

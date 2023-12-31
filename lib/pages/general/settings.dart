@@ -3,6 +3,7 @@ import 'package:meqamax/components/settings/bottomSheets/languages.dart';
 import 'package:meqamax/components/settings/logout_alert.dart';
 import 'package:meqamax/components/settings/setting_section.dart';
 import 'package:meqamax/pages/general/campaigns.dart';
+import 'package:meqamax/pages/general/download.dart';
 import 'package:meqamax/pages/login/login.dart';
 import 'package:meqamax/pages/ecommerce/orders.dart';
 import 'package:meqamax/pages/login/registration.dart';
@@ -13,7 +14,7 @@ import 'package:meqamax/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:meqamax/widgets/navigator.dart';
+import 'package:meqamax/widgets_extra/navigator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:meqamax/components/settings/bottomSheets/darkmode.dart';
 import 'package:meqamax/components/settings/setting_item.dart';
@@ -24,7 +25,7 @@ import 'package:meqamax/pages/general/faq.dart';
 import 'package:meqamax/pages/login/userinfo.dart';
 import 'package:meqamax/pages/general/message.dart';
 import 'package:meqamax/pages/general/policy.dart';
-import 'package:meqamax/widgets/behaviour.dart';
+import 'package:meqamax/widgets_extra/behaviour.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -133,6 +134,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         title: 'Bizim haqqımızda'.tr,
                         child: Column(
                           children: [
+                            SettingItem(title: 'Kataloq yüklə', image: 'assets/interface/bell.svg', onTap: () => navigatePage(context, DownloadPage(), root: true)),
                             SettingItem(title: 'Kampaniyalar'.tr, image: 'assets/interface/sale.svg', onTap: () => navigatePage(context, CampaignsPage(), root: true)),
                             SettingItem(title: 'Haqqımızda'.tr, image: 'assets/interface/info.svg', onTap: () => navigatePage(context, AboutPage(), root: true)),
                             SettingItem(title: 'Ən çox soruşulan suallar'.tr, image: 'assets/interface/faq.svg', onTap: () => navigatePage(context, FaqPage(), root: true)),

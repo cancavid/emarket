@@ -8,8 +8,8 @@ import 'package:meqamax/pages/ecommerce/single_product.dart';
 import 'package:meqamax/themes/ecommerce.dart';
 import 'package:meqamax/themes/theme.dart';
 import 'package:meqamax/widgets/image.dart';
-import 'package:meqamax/widgets/navigator.dart';
-import 'package:meqamax/widgets/snackbar.dart';
+import 'package:meqamax/widgets_extra/navigator.dart';
+import 'package:meqamax/widgets_extra/snackbar.dart';
 import 'package:meqamax/widgets/svg_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -168,10 +168,7 @@ class _SingleProductItemState extends State<SingleProductItem> {
                       style: Theme.of(context).textTheme.extraSmallHeading,
                     ),
                     SizedBox(height: 10.0),
-                    displayPrice(
-                      widget.data['price'],
-                      widget.data['final_price'],
-                    )
+                    displayPrice(widget.data)
                   ],
                 ),
               ),

@@ -7,9 +7,9 @@ import 'package:meqamax/classes/connection.dart';
 import 'package:meqamax/controllers/login_controller.dart';
 import 'package:meqamax/themes/theme.dart';
 import 'package:meqamax/widgets/appbar.dart';
-import 'package:meqamax/widgets/behaviour.dart';
+import 'package:meqamax/widgets_extra/behaviour.dart';
 import 'package:meqamax/widgets/button.dart';
-import 'package:meqamax/widgets/snackbar.dart';
+import 'package:meqamax/widgets_extra/snackbar.dart';
 
 class ChangePasswordPage extends StatefulWidget {
   const ChangePasswordPage({super.key});

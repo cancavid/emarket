@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:meqamax/classes/connection.dart';
 import 'package:meqamax/components/single_product/appbar.dart';
 import 'package:meqamax/components/single_product/bottom.dart';
+import 'package:meqamax/components/single_product/combine_related_products.dart';
 import 'package:meqamax/components/single_product/components.dart';
 import 'package:meqamax/components/single_product/title.dart';
 import 'package:meqamax/components/single_product/variation.dart';
@@ -10,10 +11,10 @@ import 'package:meqamax/controllers/cart_controller.dart';
 import 'package:meqamax/controllers/login_controller.dart';
 import 'package:meqamax/controllers/wishlist_controller.dart';
 import 'package:meqamax/themes/theme.dart';
-import 'package:meqamax/widgets/behaviour.dart';
+import 'package:meqamax/widgets_extra/behaviour.dart';
 import 'package:meqamax/widgets/container.dart';
 import 'package:meqamax/widgets/notify.dart';
-import 'package:meqamax/widgets/snackbar.dart';
+import 'package:meqamax/widgets_extra/snackbar.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -30,6 +31,8 @@ class SingleProductPage extends StatefulWidget {
 
 class _SingleProductPageState extends State<SingleProductPage> {
   Map data = {};
+  List combine = [];
+  List related = [];
   String productId = '';
   String variationId = '';
   int quantity = 1;
@@ -56,7 +59,6 @@ class _SingleProductPageState extends State<SingleProductPage> {
       productId = data['post_id'];
     } else {
       loading = true;
-      productId = widget.id!;
       get();
     }
   }
@@ -83,7 +85,7 @@ class _SingleProductPageState extends State<SingleProductPage> {
 
   get() async {
     if (await checkConnectivity()) {
-      String query = '${App.domain}/api/posts.php?action=get&session_key=${loginController.userId.value}&lang=${Get.locale?.languageCode}';
+      String query = '${App.domain}/api/product.php?action=get&lang=${Get.locale?.languageCode}';
       if (widget.slug != null) {
         query = '$query&slug=${widget.slug}';
       } else {
@@ -97,7 +99,9 @@ class _SingleProductPageState extends State<SingleProductPage> {
           if (result['status'] == 'success') {
             setState(() {
               loading = false;
-              data = result['result'];
+              data = result['result']['postdata'];
+              combine = result['result']['combine'];
+              related = result['result']['related'];
             });
           } else {
             setState(() {
@@ -251,21 +255,26 @@ class _SingleProductPageState extends State<SingleProductPage> {
                     SliverToBoxAdapter(
                       child: ScrollConfiguration(
                         behavior: MyBehavior(),
-                        child: ListView(shrinkWrap: true, physics: NeverScrollableScrollPhysics(), children: [
-                          SingleProductTitle(data: data),
-                          if (data['product_type'] == 'variable') ...[
-                            Divider(height: 5.0, thickness: 5.0, color: Theme.of(context).colorScheme.bg),
-                            VariationProduct(
-                              id: data['post_id'],
-                              action: setVariation,
-                              gallery: data['variation_gallery'],
-                              slideAction: _changeGallery,
-                              containerKey: containerKey,
-                              attention: attention,
-                            ),
+                        child: ListView(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          children: [
+                            SingleProductTitle(data: data),
+                            if (data['product_type'] == 'variable') ...[
+                              Divider(height: 5.0, thickness: 5.0, color: Theme.of(context).colorScheme.bg),
+                              VariationProduct(
+                                id: data['post_id'],
+                                action: setVariation,
+                                gallery: data['variation_gallery'],
+                                slideAction: _changeGallery,
+                                containerKey: containerKey,
+                                attention: attention,
+                              ),
+                            ],
+                            SingleProductComponents(data: data),
+                            CombinedProducts(multiple: data['combine'], data: combine)
                           ],
-                          SingleProductComponents(data: data)
-                        ]),
+                        ),
                       ),
                     )
                   ]),

@@ -4,7 +4,7 @@ import 'package:meqamax/classes/connection.dart';
 import 'package:meqamax/themes/ecommerce.dart';
 import 'package:meqamax/themes/functions.dart';
 import 'package:meqamax/themes/theme.dart';
-import 'package:meqamax/widgets/behaviour.dart';
+import 'package:meqamax/widgets_extra/behaviour.dart';
 import 'package:meqamax/widgets/button.dart';
 import 'package:meqamax/widgets/container.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +15,7 @@ class FilterPage extends StatefulWidget {
   final List data;
   final String disable;
 
-  const FilterPage({Key? key, required this.data, this.disable = ''}) : super(key: key);
+  const FilterPage({super.key, required this.data, this.disable = ''});
 
   @override
   State<FilterPage> createState() => _FilterPageState();

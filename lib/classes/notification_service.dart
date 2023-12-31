@@ -1,10 +1,12 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:meqamax/pages/ecommerce/single_order.dart';
 
 class NotificationService {
   static Future<void> initializeNotification() async {
     await AwesomeNotifications().initialize(
-      'resource://drawable/status_bar',
+      null,
       [
         NotificationChannel(
           channelGroupKey: 'high_importance_channel',
@@ -106,8 +108,8 @@ class NotificationService {
   }
 
   static openNofication(data) {
-    if (data['post_type'] == 'post') {
-      // Get.to(() => SingleCampaign(id: data['post_id']));
+    if (data['type'] == 'orderDetails') {
+      Get.to(() => SingleOrderPage(orderId: data['order_id']));
     }
   }
 }

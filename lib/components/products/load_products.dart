@@ -21,6 +21,7 @@ class LoadProducts extends StatefulWidget {
   final bool? tools;
   final String orderType;
   final String? type;
+  final ScrollPhysics? physics;
   final VoidCallback? goToFilterPage;
 
   const LoadProducts({
@@ -32,6 +33,7 @@ class LoadProducts extends StatefulWidget {
     this.tools = false,
     this.orderType = 'new',
     this.type,
+    this.physics,
     this.goToFilterPage,
   });
 
@@ -185,53 +187,9 @@ class _LoadProductsState extends State<LoadProducts> {
                 ),
               ],
               (posts.isNotEmpty)
-                  ? Expanded(
-                      child: ListView(
-                        shrinkWrap: true,
-                        padding: const EdgeInsets.all(15.0),
-                        children: [
-                          GridView.builder(
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              childAspectRatio: 2 / 3.5,
-                              mainAxisSpacing: 10.0,
-                              crossAxisSpacing: 10.0,
-                            ),
-                            itemCount: posts.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return SingleProductItem(data: posts[index]);
-                            },
-                          ),
-                          if (noPosts) ...[
-                            Center(
-                                child: Padding(
-                              padding: const EdgeInsets.fromLTRB(20.0, 35.0, 20.0, 20.0),
-                              child: Text('Göstəriləcək başqa məhsul yoxdur.'.tr, textAlign: TextAlign.center),
-                            ))
-                          ] else if (posts.length < limit) ...[
-                            SizedBox()
-                          ] else ...[
-                            VisibilityDetector(
-                                key: Key(''),
-                                onVisibilityChanged: (visibilityInfo) {
-                                  var visiblePercentage = visibilityInfo.visibleFraction * 100;
-                                  if (visiblePercentage == 100) {
-                                    setState(() {
-                                      offset = offset + limit;
-                                      get(true);
-                                    });
-                                  }
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.only(top: 15.0),
-                                  child: MsIndicator(),
-                                ))
-                          ]
-                        ],
-                      ),
-                    )
+                  ? (widget.physics == null)
+                      ? Expanded(child: productsList())
+                      : productsList()
                   : Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: Text('Heç bir nəticə tapılmadı.'.tr, textAlign: TextAlign.center),
@@ -239,5 +197,54 @@ class _LoadProductsState extends State<LoadProducts> {
             ],
           ),
         ));
+  }
+
+  ListView productsList() {
+    return ListView(
+      shrinkWrap: true,
+      physics: widget.physics,
+      padding: const EdgeInsets.all(15.0),
+      children: [
+        GridView.builder(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            childAspectRatio: 2 / 3.5,
+            mainAxisSpacing: 10.0,
+            crossAxisSpacing: 10.0,
+          ),
+          itemCount: posts.length,
+          itemBuilder: (BuildContext context, int index) {
+            return SingleProductItem(data: posts[index]);
+          },
+        ),
+        if (noPosts) ...[
+          Center(
+              child: Padding(
+            padding: const EdgeInsets.fromLTRB(20.0, 35.0, 20.0, 20.0),
+            child: Text('Göstəriləcək başqa məhsul yoxdur.'.tr, textAlign: TextAlign.center),
+          ))
+        ] else if (posts.length < limit) ...[
+          SizedBox()
+        ] else ...[
+          VisibilityDetector(
+              key: Key(''),
+              onVisibilityChanged: (visibilityInfo) {
+                var visiblePercentage = visibilityInfo.visibleFraction * 100;
+                if (visiblePercentage == 100) {
+                  setState(() {
+                    offset = offset + limit;
+                    get(true);
+                  });
+                }
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(top: 15.0),
+                child: MsIndicator(),
+              ))
+        ]
+      ],
+    );
   }
 }

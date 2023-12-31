@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:meqamax/classes/connection.dart';
+import 'package:meqamax/components/posts/campaign_products.dart';
 import 'package:meqamax/themes/theme.dart';
 import 'package:meqamax/widgets/container.dart';
 import 'package:meqamax/widgets/html.dart';
@@ -117,6 +118,7 @@ class _SingleCampaignState extends State<SingleCampaign> {
                   return Future.value();
                 },
                 child: CustomScrollView(
+                  shrinkWrap: true,
                   slivers: [
                     SliverAppBar(
                       iconTheme: const IconThemeData(color: Colors.white),
@@ -167,16 +169,20 @@ class _SingleCampaignState extends State<SingleCampaign> {
                       ),
                     ),
                     SliverToBoxAdapter(
-                        child: MsContainer(
-                      loading: loading,
-                      serverError: serverError,
-                      connectError: connectError,
-                      action: _refreshPage,
-                      child: Padding(
-                        padding: const EdgeInsets.all(25.0),
-                        child: MsHtml(data: data['post_content']),
+                      child: MsContainer(
+                        loading: loading,
+                        serverError: serverError,
+                        connectError: connectError,
+                        action: _refreshPage,
+                        child: Padding(
+                          padding: const EdgeInsets.all(25.0),
+                          child: MsHtml(data: data['post_content']),
+                        ),
                       ),
-                    )),
+                    ),
+                    SliverToBoxAdapter(
+                      child: CampaignProducts(multiple: data['combine']),
+                    )
                   ],
                 ),
               ),

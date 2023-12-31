@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:meqamax/themes/theme.dart';
-import 'package:meqamax/widgets/snackbar.dart';
+import 'package:meqamax/widgets_extra/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

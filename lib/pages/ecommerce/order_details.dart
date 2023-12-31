@@ -2,7 +2,7 @@ import 'package:meqamax/controllers/cart_controller.dart';
 import 'package:meqamax/pages/ecommerce/single_order.dart';
 import 'package:meqamax/themes/theme.dart';
 import 'package:meqamax/widgets/appbar.dart';
-import 'package:meqamax/widgets/navigator.dart';
+import 'package:meqamax/widgets_extra/navigator.dart';
 import 'package:meqamax/widgets/notify.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

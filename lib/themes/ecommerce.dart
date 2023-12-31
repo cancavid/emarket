@@ -6,8 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 class Ecommerce {
   static Map<String, List<String>> sorts = {
     'new': ['Ən yenilər'.tr, 'desc', 'post_date'],
-    'expensive': ['Əvvəlcə baha'.tr, 'desc', 'final_price'],
-    'cheap': ['Əvvəlcə ucuz'.tr, 'asc', 'final_price'],
+    'expensive': ['Əvvəlcə baha'.tr, 'desc', 'price'],
+    'cheap': ['Əvvəlcə ucuz'.tr, 'asc', 'price'],
   };
   static double maxPrice = 2000.0;
 }
@@ -22,23 +22,35 @@ fixedPrice(price) {
   }
 }
 
-displayPrice(price, finalPrice, {type = 'simple'}) {
-  price = fixedPrice(price);
-  finalPrice = fixedPrice(finalPrice);
-  if (price == finalPrice) {
-    return Text('$finalPrice ${App.currency}', style: GoogleFonts.inter(height: 1.0, fontWeight: FontWeight.w600, fontSize: (type == 'simple') ? 13.0 : 20.0));
+displayPrice(data, {type = 'simple', variation = false}) {
+  if (data.containsKey('product_type') && data['product_type'] == 'variable') {
+    return Text('${data['price_range']} ${App.currency}', style: GoogleFonts.inter(height: 1.0, fontWeight: FontWeight.w600, fontSize: (type == 'simple') ? 13.0 : 16.0));
   } else {
-    return Wrap(
-      alignment: WrapAlignment.center,
-      runAlignment: WrapAlignment.end,
-      crossAxisAlignment: WrapCrossAlignment.start,
-      runSpacing: 5.0,
-      children: [
-        Text('$finalPrice ${App.currency}', style: GoogleFonts.inter(height: 1.0, fontWeight: FontWeight.w600, fontSize: (type == 'simple') ? 13.0 : 20.0)),
-        SizedBox(width: 5.0),
-        Text('$price ${App.currency}', style: GoogleFonts.inter(color: Color(0xFF999999), height: 1.0, decoration: TextDecoration.lineThrough, fontSize: (type == 'simple') ? 10.0 : 13.0)),
-      ],
-    );
+    String price = '';
+    String finalPrice = '';
+    if (variation) {
+      price = fixedPrice(data['variation_price']);
+      finalPrice = fixedPrice(data['variation_final_price']);
+    } else {
+      price = fixedPrice(data['price']);
+      finalPrice = fixedPrice(data['final_price']);
+    }
+    if (price == finalPrice) {
+      return Text('$finalPrice ${App.currency}', style: GoogleFonts.inter(height: 1.0, fontWeight: FontWeight.w600, fontSize: (type == 'simple') ? 13.0 : 16.0));
+    } else {
+      return Wrap(
+        alignment: WrapAlignment.center,
+        runAlignment: WrapAlignment.end,
+        crossAxisAlignment: WrapCrossAlignment.end,
+        runSpacing: 5.0,
+        spacing: 5.0,
+        children: [
+          Text('$finalPrice ${App.currency}', style: GoogleFonts.inter(height: 1.0, fontWeight: FontWeight.w600, fontSize: (type == 'simple') ? 13.0 : 16.0)),
+          SizedBox(width: 5.0),
+          Text('$price ${App.currency}', style: GoogleFonts.inter(color: Color(0xFF999999), height: 1.1, decoration: TextDecoration.lineThrough, fontSize: (type == 'simple') ? 10.0 : 13.0)),
+        ],
+      );
+    }
   }
 }
 

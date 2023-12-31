@@ -7,7 +7,7 @@ import 'package:meqamax/pages/general/notifications.dart';
 import 'package:meqamax/pages/general/search.dart';
 import 'package:meqamax/pages/login/login.dart';
 import 'package:meqamax/themes/theme.dart';
-import 'package:meqamax/widgets/navigator.dart';
+import 'package:meqamax/widgets_extra/navigator.dart';
 import 'package:meqamax/widgets/svg_icon.dart';
 
 class HomeAppBar extends StatefulWidget {

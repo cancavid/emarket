@@ -17,83 +17,80 @@ class Stories extends StatefulWidget {
 
 class _StoriesState extends State<Stories> {
   int _currentIndex = 0;
-  bool animate = false;
   final CarouselController _carouselController = CarouselController();
   final storyController = Get.put(StoryController());
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
     return (widget.stories.isEmpty)
         ? SizedBox()
-        : Column(children: [
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 15.0),
-              height: 120.0,
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                itemCount: widget.stories.length,
-                itemBuilder: (context, index) {
-                  return Row(children: [
-                    (index == 0) ? SizedBox(width: 15.0) : SizedBox(),
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          _currentIndex = index;
-                          storyController.update();
-                        });
-                        showDialog(
-                          barrierColor: Colors.black,
-                          context: context,
-                          builder: (context) {
-                            return showStoryDetails(context);
-                          },
-                        );
-                      },
-                      child: Stack(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(100.0),
-                              child: MsImage(
-                                url: widget.stories[index]['story_image']['media_url'],
-                                width: 80.0,
-                                height: 80.0,
-                              ),
-                            ),
-                          ),
-                          Positioned.fill(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(width: 1.0, color: Colors.grey.withOpacity(.3)),
+        : Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 15.0),
+                height: 120.0,
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: widget.stories.length,
+                  itemBuilder: (context, index) {
+                    return Row(children: [
+                      (index == 0) ? SizedBox(width: 15.0) : SizedBox(),
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            _currentIndex = index;
+                            storyController.update();
+                          });
+                          showDialog(
+                            barrierColor: Colors.black.withOpacity(.7),
+                            context: context,
+                            builder: (context) {
+                              return showStoryDetails(context);
+                            },
+                          );
+                        },
+                        child: Stack(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: ClipRRect(
                                 borderRadius: BorderRadius.circular(100.0),
+                                child: MsImage(
+                                  url: widget.stories[index]['story_image']['media_url'],
+                                  width: 80.0,
+                                  height: 80.0,
+                                ),
                               ),
                             ),
-                          )
-                        ],
+                            Positioned.fill(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(width: 1.0, color: Colors.grey.withOpacity(.3)),
+                                  borderRadius: BorderRadius.circular(100.0),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                    (index == widget.stories.length - 1) ? SizedBox(width: 15.0) : SizedBox(),
-                  ]);
-                },
-                separatorBuilder: (context, index) {
-                  return SizedBox(width: 7.0);
-                },
-              ),
-            )
-          ]);
+                      (index == widget.stories.length - 1) ? SizedBox(width: 15.0) : SizedBox(),
+                    ]);
+                  },
+                  separatorBuilder: (context, index) {
+                    return SizedBox(width: 7.0);
+                  },
+                ),
+              )
+            ],
+          );
   }
 
-  GestureDetector showStoryDetails(BuildContext context) {
-    return GestureDetector(
-      onVerticalDragUpdate: (details) {
-        if (details.primaryDelta! > 5.0) {
-          storyController.update();
+  Dismissible showStoryDetails(BuildContext context) {
+    return Dismissible(
+      key: GlobalKey(),
+      direction: DismissDirection.down,
+      onUpdate: (data) {
+        if (data.progress >= 0.5) {
           Get.back();
         }
       },
@@ -144,7 +141,7 @@ class _StoriesState extends State<Stories> {
                           left: 0,
                           child: GestureDetector(
                             onTap: () {
-                              redirectUrl(widget.stories[itemIndex]['story_url']);
+                              redirectUrl(context, widget.stories[itemIndex]['story_url']);
                             },
                             child: Container(
                               width: MediaQuery.of(context).size.width,

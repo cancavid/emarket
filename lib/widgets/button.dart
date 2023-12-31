@@ -21,7 +21,7 @@ class MsButton extends StatelessWidget {
   final Widget? textWidget;
   final double height;
 
-  const MsButton({Key? key, required this.onTap, this.title, this.style = MsButtonStyle.primary, this.loading = false, this.borderRadius = 50.0, this.icon = false, this.iconData = Icons.arrow_forward, this.textStyle, this.textWidget, this.height = 54.0}) : super(key: key);
+  const MsButton({super.key, required this.onTap, this.title, this.style = MsButtonStyle.primary, this.loading = false, this.borderRadius = 50.0, this.icon = false, this.iconData = Icons.arrow_forward, this.textStyle, this.textWidget, this.height = 54.0});
 
   @override
   Widget build(BuildContext context) {

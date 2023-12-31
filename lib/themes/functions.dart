@@ -23,7 +23,7 @@ Color hexToColor(String colorCode) {
   return Color(int.parse(colorString));
 }
 
-redirectUrl(url) async {
+redirectUrl(context, url) async {
   url = url.replaceAll(RegExp(r'/$'), '');
   List<String> pathSegments = Uri.parse(url).pathSegments;
   if (pathSegments.isNotEmpty) {
@@ -33,13 +33,13 @@ redirectUrl(url) async {
     }
     if (pathSegments[0] == 'brand') {
       var brand = pathSegments[1];
-      Get.toNamed('/brand/$brand');
+      Navigator.of(context).pushNamed('/brand/', arguments: [brand]);
     } else if (pathSegments[0] == 'mehsul-kateqoriyasi') {
       var category = pathSegments[1];
-      Get.toNamed('/mehsul-kateqoriyasi/$category');
+      Navigator.of(context).pushNamed('/mehsul-kateqoriyasi/', arguments: [category]);
     } else if (pathSegments[0] == 'mehsul' && pathSegments.length > 1) {
       var product = pathSegments[1];
-      Get.toNamed('/mehsul/$product');
+      Navigator.of(context).pushNamed('/mehsul/', arguments: [product]);
     } else {
       var slug = pathSegments[0];
       if (await checkConnectivity()) {
@@ -49,7 +49,7 @@ redirectUrl(url) async {
           var result = json.decode(utf8.decode(response.bodyBytes));
           if (result['status'] == 'success') {
             if (result['result']['post_type'] == 'post') {
-              Get.toNamed('/post/$slug');
+              Navigator.of(context, rootNavigator: true).pushNamed('/post/', arguments: [slug]);
             } else {
               launchUrl(Uri.parse(url));
             }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:meqamax/themes/functions.dart';
 import 'package:meqamax/widgets/image.dart';
 import 'package:meqamax/widgets/indicator.dart';
-import 'package:meqamax/widgets/pagination.dart';
+import 'package:meqamax/widgets_extra/pagination.dart';
 
 // ignore: must_be_immutable
 class Carousel extends StatefulWidget {
@@ -30,9 +30,9 @@ class _CarouselState extends State<Carousel> {
                   borderRadius: BorderRadius.circular(15.0),
                   child: CarouselSlider.builder(
                     itemCount: widget.slides.length,
-                    itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) => GestureDetector(
+                    itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) => InkWell(
                       onTap: () {
-                        redirectUrl(widget.slides[itemIndex]['s_url']);
+                        redirectUrl(context, widget.slides[itemIndex]['s_url']);
                       },
                       child: MsImage(
                         url: widget.slides[itemIndex]['s_image']['media_url'],

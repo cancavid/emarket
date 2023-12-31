@@ -10,9 +10,9 @@ import 'package:meqamax/components/login/separator.dart';
 import 'package:meqamax/controllers/login_controller.dart';
 import 'package:meqamax/pages/login/confirm_account.dart';
 import 'package:meqamax/themes/theme.dart';
-import 'package:meqamax/widgets/behaviour.dart';
+import 'package:meqamax/widgets_extra/behaviour.dart';
 import 'package:meqamax/widgets/button.dart';
-import 'package:meqamax/widgets/snackbar.dart';
+import 'package:meqamax/widgets_extra/snackbar.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({super.key});

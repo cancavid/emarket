@@ -26,46 +26,37 @@ class _SingleProductTitleState extends State<SingleProductTitle> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+              Text(
+                widget.data['post_title'],
+                style: Theme.of(context).textTheme.smallHeading,
+              ),
+              SizedBox(height: 5.0),
+              GestureDetector(
+                onTap: () {
+                  showModalBottomSheet(
+                      context: context,
+                      builder: (context) {
+                        return ProductComments(id: widget.data['post_id'].toString());
+                      });
+                },
+                child: Row(
                   children: [
+                    MsRating(value: double.parse(widget.data['rating'].toString())),
+                    SizedBox(width: 7.0),
                     Text(
-                      widget.data['post_title'],
-                      style: Theme.of(context).textTheme.smallHeading,
-                    ),
-                    SizedBox(height: 5.0),
-                    GestureDetector(
-                      onTap: () {
-                        showModalBottomSheet(
-                            context: context,
-                            builder: (context) {
-                              return ProductComments(id: widget.data['post_id'].toString());
-                            });
-                      },
-                      child: Row(
-                        children: [
-                          MsRating(value: double.parse(widget.data['rating'].toString())),
-                          SizedBox(width: 7.0),
-                          Text(
-                              'single_product_rating'.trParams({
-                                'rating': widget.data['rating'].toString(),
-                                'count': widget.data['commentsCount'].toString(),
-                              }),
-                              style: Theme.of(context).textTheme.extraSmallTitle),
-                        ],
-                      ),
-                    ),
+                        'single_product_rating'.trParams({
+                          'rating': widget.data['rating'].toString(),
+                          'count': widget.data['commentsCount'].toString(),
+                        }),
+                        style: Theme.of(context).textTheme.extraSmallTitle),
                   ],
                 ),
               ),
-              SizedBox(width: 15.0),
-              SizedBox(
-                width: 100.0,
-                child: displayPrice(widget.data['price'], widget.data['final_price'], type: 'Large'),
-              ),
+              SizedBox(height: 15.0),
+              displayPrice(widget.data, type: 'Large'),
             ],
           ),
           if (widget.data['stock'] == '0') ...[

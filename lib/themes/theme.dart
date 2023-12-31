@@ -95,7 +95,7 @@ class MsThemeMode {
       unselectedLabelStyle: GoogleFonts.inter(
         fontSize: 14.0,
         fontWeight: FontWeight.w400,
-        color: MsColors.lightGrey4,
+        color: MsColors.lightGrey2,
       ),
       labelColor: MsColors.lightSecondary,
       labelStyle: GoogleFonts.inter(

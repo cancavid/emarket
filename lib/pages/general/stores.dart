@@ -5,7 +5,8 @@ import 'package:get/utils.dart';
 import 'package:meqamax/classes/connection.dart';
 import 'package:meqamax/themes/theme.dart';
 import 'package:meqamax/widgets/appbar.dart';
-import 'package:meqamax/widgets/behaviour.dart';
+import 'package:meqamax/widgets/svg_icon.dart';
+import 'package:meqamax/widgets_extra/behaviour.dart';
 import 'package:meqamax/widgets/container.dart';
 import 'package:meqamax/widgets/indicator.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:location/location.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class StoresPage extends StatefulWidget {
   const StoresPage({super.key});
@@ -30,6 +32,7 @@ class _StoresPageState extends State<StoresPage> {
   Set<Marker> markers = {};
   LatLng? currentLocation;
   Location location = Location();
+  String directionUrl = '';
 
   get() async {
     if (await checkConnectivity()) {
@@ -73,6 +76,12 @@ class _StoresPageState extends State<StoresPage> {
     });
   }
 
+  void directionUrlCreator(lat, lng) {
+    setState(() {
+      directionUrl = 'https://www.google.com/maps/dir//$lat,$lng/@$lat,$lng,14z?hl=az';
+    });
+  }
+
   void _addMarkers() {
     if (data.isNotEmpty) {
       for (var store in data) {
@@ -81,6 +90,9 @@ class _StoresPageState extends State<StoresPage> {
             markerId: MarkerId(store['s_name']),
             position: LatLng(double.parse(store['s_lat']), double.parse(store['s_lng'])),
             infoWindow: InfoWindow(title: store['s_name'], snippet: store['s_address']),
+            onTap: () {
+              directionUrlCreator(store['s_lat'], store['s_lng']);
+            },
           ),
         );
       }
@@ -134,15 +146,62 @@ class _StoresPageState extends State<StoresPage> {
             : Column(
                 children: [
                   Expanded(
-                    child: GoogleMap(
-                      onMapCreated: _onMapCreated,
-                      initialCameraPosition: CameraPosition(
-                        target: LatLng(40.37767, 49.89201),
-                        zoom: 10,
-                      ),
-                      markers: markers,
-                      myLocationButtonEnabled: true,
-                      myLocationEnabled: true,
+                    child: Stack(
+                      children: [
+                        GoogleMap(
+                          onMapCreated: _onMapCreated,
+                          initialCameraPosition: CameraPosition(
+                            target: LatLng(40.37767, 49.89201),
+                            zoom: 10,
+                          ),
+                          markers: markers,
+                          myLocationButtonEnabled: true,
+                          myLocationEnabled: true,
+                          indoorViewEnabled: true,
+                          trafficEnabled: true,
+                          onTap: (data) {
+                            directionUrlCreator(data.latitude, data.longitude);
+                          },
+                        ),
+                        if (directionUrl != '') ...[
+                          Positioned(
+                            bottom: 10.0,
+                            left: 10.0,
+                            child: InkWell(
+                              onTap: () {
+                                if (directionUrl != '') {
+                                  launchUrl(Uri.parse(directionUrl));
+                                }
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 15.0),
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).colorScheme.secondaryBg,
+                                  borderRadius: BorderRadius.circular(30.0),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.3),
+                                      spreadRadius: 1,
+                                      blurRadius: 10,
+                                      offset: Offset(0, 0),
+                                    ),
+                                  ],
+                                ),
+                                child: Row(
+                                  children: [
+                                    MsSvgIcon(
+                                      icon: 'assets/brands/google-maps.svg',
+                                      size: 20.0,
+                                    ),
+                                    SizedBox(width: 5.0),
+                                    Text('Yol tarifi al', style: GoogleFonts.inter(fontWeight: FontWeight.w600, fontSize: 12.5)),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          )
+                        ]
+                      ],
                     ),
                   ),
                   ScrollConfiguration(
@@ -162,6 +221,10 @@ class _StoresPageState extends State<StoresPage> {
                                   15.0,
                                 ),
                               );
+                              mapController?.showMarkerInfoWindow(markers.elementAt(index).markerId);
+                              setState(() {
+                                directionUrl = 'https://www.google.com/maps/dir//${markers.elementAt(index).position.latitude},${markers.elementAt(index).position.longitude}/@${markers.elementAt(index).position.latitude},${markers.elementAt(index).position.longitude},14z?hl=az';
+                              });
                             },
                             child: Container(
                               width: MediaQuery.of(context).size.width * 2 / 5,

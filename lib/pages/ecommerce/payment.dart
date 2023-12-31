@@ -90,10 +90,9 @@ class _PaymentPageState extends State<PaymentPage> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
+    return PopScope(
+      onPopInvoked: (didPop) async {
         conditions();
-        return true;
       },
       child: Scaffold(
         appBar: AppBar(

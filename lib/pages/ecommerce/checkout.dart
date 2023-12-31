@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:location/location.dart';
 import 'package:meqamax/classes/connection.dart';
 import 'package:meqamax/components/cart/cart_total.dart';
 import 'package:meqamax/components/form/label.dart';
@@ -11,7 +12,7 @@ import 'package:meqamax/themes/theme.dart';
 import 'package:meqamax/widgets/appbar.dart';
 import 'package:meqamax/widgets/button.dart';
 import 'package:meqamax/widgets/notify.dart';
-import 'package:meqamax/widgets/snackbar.dart';
+import 'package:meqamax/widgets_extra/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -28,11 +29,14 @@ class _CheckoutPageState extends State<CheckoutPage> {
   bool connectError = false;
   bool buttonLoading = false;
   bool visible = false;
+  bool getLocation = false;
+  bool readOnlyAddress = false;
 
   String firstName = '';
   String lastName = '';
   String phone = '';
   String address = '';
+  List latlng = [];
   String email = '';
   String note = '';
   String method = 'offline';
@@ -41,13 +45,16 @@ class _CheckoutPageState extends State<CheckoutPage> {
   final cartController = Get.put(CartController());
   final _formKey = GlobalKey<FormState>();
 
+  final TextEditingController _addressController = TextEditingController(text: '');
+
   order() async {
     if (await checkConnectivity()) {
       var request = http.MultipartRequest("POST", Uri.parse("${App.domain}/api/checkout.php?session_key=${loginController.userId}&lang=${Get.locale?.languageCode}"));
 
       request.fields['first_name'] = firstName;
       request.fields['last_name'] = lastName;
-      request.fields['address'] = address;
+      request.fields['address'] = _addressController.text;
+      request.fields['latlng'] = jsonEncode(latlng);
       request.fields['phone'] = phone;
       request.fields['email'] = email;
       request.fields['note'] = note;
@@ -86,8 +93,44 @@ class _CheckoutPageState extends State<CheckoutPage> {
     firstName = 'Cavid';
     lastName = 'Muradov';
     phone = '055 508 58 64';
-    address = 'Bakı';
+    _addressController.text = 'Bakı';
     email = 'cavimur@gmail.com';
+  }
+
+  Future<void> _getLocation() async {
+    setState(() {
+      getLocation = true;
+    });
+    var locationData = await Location().getLocation();
+    setState(() {
+      latlng = [locationData.latitude!, locationData.longitude!];
+      readOnlyAddress = true;
+    });
+    await getStreetName(locationData.latitude!, locationData.longitude!);
+  }
+
+  Future<void> getStreetName(double latitude, double longitude) async {
+    const apiKey = 'AIzaSyCyqrHk415R_6l3b_9CjI_rsp1M9Ls_NcE';
+    final apiUrl = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=$latitude,$longitude&key=$apiKey';
+
+    final response = await http.get(Uri.parse(apiUrl));
+    if (response.statusCode == 200) {
+      final result = json.decode(response.body);
+      if (result['status'] == 'OK') {
+        setState(() {
+          _addressController.text = '${result['results'][0]['formatted_address']}\nLat: $latitude, \nLng: $longitude';
+        });
+      }
+    }
+    setState(() {
+      getLocation = false;
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _addressController.dispose();
   }
 
   @override
@@ -98,20 +141,22 @@ class _CheckoutPageState extends State<CheckoutPage> {
           ? SizedBox()
           : Obx(() => Column(mainAxisSize: MainAxisSize.min, children: [
                 AnimatedSize(
-                    duration: Duration(milliseconds: 150),
-                    alignment: Alignment.topCenter,
-                    child: SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        child: Visibility(
-                          visible: visible,
-                          child: Container(
-                              decoration: BoxDecoration(
-                                  border: Border(
-                                    top: BorderSide(color: Theme.of(context).colorScheme.grey4),
-                                  ),
-                                  color: Theme.of(context).colorScheme.secondaryBg),
-                              child: CartTotal(cart: cartController.data)),
-                        ))),
+                  duration: Duration(milliseconds: 150),
+                  alignment: Alignment.topCenter,
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: Visibility(
+                      visible: visible,
+                      child: Container(
+                          decoration: BoxDecoration(
+                              border: Border(
+                                top: BorderSide(color: Theme.of(context).colorScheme.grey4),
+                              ),
+                              color: Theme.of(context).colorScheme.secondaryBg),
+                          child: CartTotal(cart: cartController.data)),
+                    ),
+                  ),
+                ),
                 Ink(
                   color: Theme.of(context).colorScheme.secondaryBg,
                   child: Column(
@@ -212,6 +257,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   SizedBox(height: 15.0),
                   FormLabel(label: 'Telefon'.tr),
                   TextFormField(
+                    keyboardType: TextInputType.phone,
                     initialValue: phone,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -226,16 +272,62 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   SizedBox(height: 15.0),
                   FormLabel(label: 'Çatdırılma ünvanı'.tr),
                   TextFormField(
-                    initialValue: address,
+                    minLines: 1,
+                    maxLines: 4,
+                    controller: _addressController,
+                    readOnly: readOnlyAddress,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Çatdırılma ünvanı qeyd etməmisiniz.'.tr;
                       }
-                      setState(() {
-                        address = value;
-                      });
                       return null;
                     },
+                  ),
+                  InkWell(
+                    onTap: () {
+                      _getLocation();
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10.0),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.location_searching_outlined,
+                                size: 16.0,
+                                color: Colors.blue,
+                              ),
+                              SizedBox(width: 5.0),
+                              Text(
+                                'İndiki məkanınızı təyin edin',
+                                style: Theme.of(context).textTheme.link,
+                              ),
+                            ],
+                          ),
+                        ),
+                        if (getLocation) ...[
+                          Center(
+                            child: SizedBox(
+                              width: 20.0,
+                              height: 20.0,
+                              child: CircularProgressIndicator(strokeWidth: 2.0),
+                            ),
+                          ),
+                        ] else if (readOnlyAddress) ...[
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                _addressController.text = '';
+                                latlng = [];
+                              });
+                            },
+                            child: Text('Təmizlə'),
+                          )
+                        ]
+                      ],
+                    ),
                   ),
                   SizedBox(height: 15.0),
                   FormLabel(label: 'Email'.tr),
@@ -254,6 +346,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   SizedBox(height: 15.0),
                   FormLabel(label: 'Əlavə qeydiniz'.tr),
                   TextFormField(
+                    minLines: 2,
+                    maxLines: 4,
                     initialValue: note,
                     validator: (value) {
                       setState(() {

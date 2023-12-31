@@ -6,7 +6,7 @@ class MsSvgIcon extends StatelessWidget {
   final Color? color;
   final double size;
 
-  const MsSvgIcon({Key? key, required this.icon, this.color, this.size = 20.0}) : super(key: key);
+  const MsSvgIcon({super.key, required this.icon, this.color, this.size = 20.0});
 
   @override
   Widget build(BuildContext context) {

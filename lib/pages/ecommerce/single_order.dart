@@ -8,7 +8,7 @@ import 'package:meqamax/themes/ecommerce.dart';
 import 'package:meqamax/themes/functions.dart';
 import 'package:meqamax/themes/theme.dart';
 import 'package:meqamax/widgets/appbar.dart';
-import 'package:meqamax/widgets/behaviour.dart';
+import 'package:meqamax/widgets_extra/behaviour.dart';
 import 'package:meqamax/widgets/container.dart';
 import 'package:meqamax/widgets/image.dart';
 import 'package:meqamax/widgets/indicator.dart';

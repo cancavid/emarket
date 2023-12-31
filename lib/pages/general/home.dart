@@ -4,16 +4,18 @@ import 'package:meqamax/classes/connection.dart';
 import 'package:meqamax/components/home/appbar.dart';
 import 'package:meqamax/components/home/brands.dart';
 import 'package:meqamax/components/home/carousel.dart';
-import 'package:meqamax/components/home/new_products.dart';
-import 'package:meqamax/components/home/popular_products.dart';
 import 'package:meqamax/components/home/stories.dart';
-import 'package:meqamax/widgets/behaviour.dart';
+import 'package:meqamax/components/products/carousel_products.dart';
+import 'package:meqamax/pages/ecommerce/new_products.dart';
+import 'package:meqamax/pages/ecommerce/popular_products.dart';
+import 'package:meqamax/widgets_extra/behaviour.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meqamax/themes/theme.dart';
 import 'package:http/http.dart' as http;
 import 'package:meqamax/widgets/indicator.dart';
 import 'package:meqamax/widgets/refresh_indicator.dart';
+import 'package:meqamax/widgets_extra/navigator.dart';
 
 class HomePage extends StatefulWidget {
   final Function(int) changePage;
@@ -127,9 +129,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           Carousel(slides: slides),
                           Stories(stories: stories),
                           SizedBox(height: 30.0),
-                          HomeNewsProducts(posts: newPosts),
+                          CarouselProducts(posts: newPosts, title: 'Yeni əlavə olunanlar', action: () => navigatePage(context, NewProductsPage())),
                           SizedBox(height: 30.0),
-                          HomePopularProducts(posts: trendPosts),
+                          CarouselProducts(posts: trendPosts, title: 'Populyar məhsullar', action: () => navigatePage(context, PopularProductsPage())),
                           SizedBox(height: 30.0),
                           HomeBrands(brands: brands),
                         ]),

@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:meqamax/classes/connection.dart';
 import 'package:meqamax/themes/theme.dart';
 import 'package:meqamax/widgets/appbar.dart';
-import 'package:meqamax/widgets/behaviour.dart';
+import 'package:meqamax/widgets_extra/behaviour.dart';
 import 'package:meqamax/widgets/container.dart';
 import 'package:meqamax/widgets/html.dart';
 import 'package:meqamax/widgets/refresh_indicator.dart';

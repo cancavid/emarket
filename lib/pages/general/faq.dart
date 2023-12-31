@@ -2,7 +2,8 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:meqamax/components/app/appbar_back_button.dart';
-import 'package:meqamax/widgets/behaviour.dart';
+import 'package:meqamax/widgets/accordion.dart';
+import 'package:meqamax/widgets_extra/behaviour.dart';
 import 'package:meqamax/widgets/container.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -109,59 +110,28 @@ class _FaqPageState extends State<FaqPage> {
                       behavior: MyBehavior(),
                       child: ListView(padding: const EdgeInsets.all(25.0), shrinkWrap: true, children: [
                         for (var i = 0; i < faq[index]['f_questions'].length; i++)
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    if (activeFaqItem == i) {
-                                      activeFaqItem = -1;
-                                    } else {
-                                      activeFaqItem = i;
-                                    }
-                                  });
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 15.0),
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                          child: Text(
-                                        faq[index]['f_questions'][i]['f_question'],
-                                        style: GoogleFonts.inter(
-                                          fontSize: 16.0,
-                                          height: 1.4,
-                                          color: (activeFaqItem == i) ? Theme.of(context).colorScheme.secondaryColor : Theme.of(context).colorScheme.grey1,
-                                          fontWeight: (activeFaqItem == i) ? FontWeight.w600 : FontWeight.w400,
-                                        ),
-                                      )),
-                                      SizedBox(width: 15.0),
-                                      AnimatedRotation(
-                                        turns: (activeFaqItem == i) ? 0.5 : 0.0,
-                                        duration: const Duration(milliseconds: 300),
-                                        child: Icon(Icons.keyboard_arrow_down, size: 30.0, color: Theme.of(context).colorScheme.grey1),
-                                      )
-                                    ],
-                                  ),
-                                ),
+                          MsAccordion(
+                            onTap: () {
+                              setState(() {
+                                if (activeFaqItem == i) {
+                                  activeFaqItem = -1;
+                                } else {
+                                  activeFaqItem = i;
+                                }
+                              });
+                            },
+                            title: Text(
+                              faq[index]['f_questions'][i]['f_question'],
+                              style: GoogleFonts.inter(
+                                fontSize: 16.0,
+                                height: 1.4,
+                                color: (activeFaqItem == i) ? Theme.of(context).colorScheme.secondaryColor : Theme.of(context).colorScheme.grey1,
+                                fontWeight: (activeFaqItem == i) ? FontWeight.w600 : FontWeight.w400,
                               ),
-                              AnimatedSize(
-                                duration: const Duration(milliseconds: 300),
-                                alignment: Alignment.topCenter,
-                                child: SizedBox(
-                                  width: MediaQuery.of(context).size.width,
-                                  child: Visibility(
-                                    visible: (activeFaqItem == i) ? true : false,
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(vertical: 15.0),
-                                      child: MsHtml(data: faq[index]['f_questions'][i]['f_answer']),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          )
+                            ),
+                            content: MsHtml(data: faq[index]['f_questions'][i]['f_answer']),
+                            active: (activeFaqItem == i) ? true : false,
+                          ),
                       ]),
                     )
                 ],

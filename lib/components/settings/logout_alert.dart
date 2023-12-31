@@ -14,6 +14,8 @@ class LogoutAlert extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      contentPadding: EdgeInsets.all(30.0),
+      actionsPadding: EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 15.0),
       content: Text("Hesabınızdan çıxış etmək istədiyinizə əminsinizmi?".tr),
       actions: [
         TextButton(

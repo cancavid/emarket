@@ -15,7 +15,7 @@ import 'package:meqamax/themes/theme.dart';
 import 'package:meqamax/widgets/alphabet.dart';
 import 'package:meqamax/widgets/appbar.dart';
 import 'package:meqamax/widgets/button.dart';
-import 'package:meqamax/widgets/snackbar.dart';
+import 'package:meqamax/widgets_extra/snackbar.dart';
 
 class UserInfoPage extends StatefulWidget {
   const UserInfoPage({super.key});
@@ -240,6 +240,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
             SizedBox(height: 15.0),
             FormLabel(label: 'Telefon'.tr),
             TextFormField(
+              keyboardType: TextInputType.phone,
               initialValue: phone,
               validator: (value) {
                 if (value == null || value.isEmpty) {

@@ -7,10 +7,10 @@ import 'package:meqamax/classes/connection.dart';
 import 'package:meqamax/components/form/label.dart';
 import 'package:meqamax/themes/theme.dart';
 import 'package:meqamax/widgets/appbar.dart';
-import 'package:meqamax/widgets/behaviour.dart';
+import 'package:meqamax/widgets_extra/behaviour.dart';
 import 'package:meqamax/widgets/button.dart';
 import 'package:meqamax/widgets/notify.dart';
-import 'package:meqamax/widgets/snackbar.dart';
+import 'package:meqamax/widgets_extra/snackbar.dart';
 
 class MessagePage extends StatefulWidget {
   const MessagePage({super.key});

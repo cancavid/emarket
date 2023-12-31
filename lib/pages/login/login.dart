@@ -13,9 +13,9 @@ import 'package:meqamax/controllers/login_controller.dart';
 import 'package:meqamax/pages/login/forgot_password.dart';
 import 'package:meqamax/pages/login/registration.dart';
 import 'package:meqamax/themes/theme.dart';
-import 'package:meqamax/widgets/behaviour.dart';
+import 'package:meqamax/widgets_extra/behaviour.dart';
 import 'package:meqamax/widgets/button.dart';
-import 'package:meqamax/widgets/snackbar.dart';
+import 'package:meqamax/widgets_extra/snackbar.dart';
 import 'package:meqamax/widgets/svg_icon.dart';
 
 class LoginPage extends StatefulWidget {
@@ -87,7 +87,8 @@ class _LoginPageState extends State<LoginPage> {
           padding: const EdgeInsets.fromLTRB(20.0, 80.0, 20.0, 20.0),
           children: [
             Form(
-                key: _formKey,
+              key: _formKey,
+              child: AutofillGroup(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -95,6 +96,7 @@ class _LoginPageState extends State<LoginPage> {
                     SizedBox(height: 35.0),
                     FormLabel(label: 'Email'.tr),
                     TextFormField(
+                      autofillHints: const [AutofillHints.email],
                       decoration: InputDecoration(hintText: 'Email ünvanı'.tr),
                       initialValue: username,
                       validator: (value) {
@@ -112,6 +114,7 @@ class _LoginPageState extends State<LoginPage> {
                     Stack(
                       children: [
                         TextFormField(
+                          autofillHints: const [AutofillHints.password],
                           decoration: InputDecoration(hintText: 'Hesab şifrəsi'.tr),
                           initialValue: password,
                           obscureText: !showPassword,
@@ -147,6 +150,7 @@ class _LoginPageState extends State<LoginPage> {
                             onTap: () {
                               showModalBottomSheet(
                                   context: context,
+                                  isScrollControlled: true,
                                   builder: (context) {
                                     return ForgotPassword();
                                   });
@@ -190,7 +194,9 @@ class _LoginPageState extends State<LoginPage> {
                       ],
                     ),
                   ],
-                )),
+                ),
+              ),
+            ),
           ],
         ),
       ),

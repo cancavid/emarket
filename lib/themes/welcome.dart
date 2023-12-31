@@ -3,7 +3,7 @@ import 'package:meqamax/widgets/svg_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meqamax/controllers/welcome_controller.dart';
-import 'package:meqamax/widgets/behaviour.dart';
+import 'package:meqamax/widgets_extra/behaviour.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});

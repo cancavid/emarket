@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:meqamax/pages/ecommerce/single_taxonomy.dart';
 import 'package:meqamax/themes/theme.dart';
 import 'package:meqamax/widgets/image.dart';
-import 'package:meqamax/widgets/navigator.dart';
+import 'package:meqamax/widgets_extra/navigator.dart';
 
 class HomeBrands extends StatefulWidget {
   final List brands;
