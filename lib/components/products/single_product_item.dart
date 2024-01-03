@@ -168,7 +168,7 @@ class _SingleProductItemState extends State<SingleProductItem> {
                       style: Theme.of(context).textTheme.extraSmallHeading,
                     ),
                     SizedBox(height: 10.0),
-                    displayPrice(widget.data)
+                    displayPrice(widget.data, range: (widget.data['product_type'] == 'variable') ? true : false)
                   ],
                 ),
               ),

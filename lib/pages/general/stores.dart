@@ -222,9 +222,7 @@ class _StoresPageState extends State<StoresPage> {
                                 ),
                               );
                               mapController?.showMarkerInfoWindow(markers.elementAt(index).markerId);
-                              setState(() {
-                                directionUrl = 'https://www.google.com/maps/dir//${markers.elementAt(index).position.latitude},${markers.elementAt(index).position.longitude}/@${markers.elementAt(index).position.latitude},${markers.elementAt(index).position.longitude},14z?hl=az';
-                              });
+                              directionUrlCreator(markers.elementAt(index).position.latitude, markers.elementAt(index).position.longitude);
                             },
                             child: Container(
                               width: MediaQuery.of(context).size.width * 2 / 5,

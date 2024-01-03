@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
-import 'package:meqamax/components/app/appbar_back_button.dart';
 import 'package:meqamax/components/products/load_products.dart';
 import 'package:meqamax/themes/theme.dart';
+import 'package:meqamax/widgets/icon_button.dart';
 import 'package:meqamax/widgets_extra/behaviour.dart';
 import 'package:meqamax/widgets/svg_icon.dart';
 import 'package:flutter/material.dart';
@@ -57,7 +57,7 @@ class _SearchPageState extends State<SearchPage> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.secondaryBg,
       appBar: AppBar(
-        leading: AppBarBackButton(),
+        leading: MsIconButton(onTap: () => Navigator.of(context).pop()),
         title: Text('Axtarış'.tr),
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(75.0),

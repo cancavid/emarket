@@ -25,6 +25,7 @@ class _CombinedProductsState extends State<CombinedProducts> {
   void initState() {
     super.initState();
     if (widget.data != null && widget.data!.isNotEmpty) {
+      loading = false;
       posts = widget.data!;
     } else if (widget.multiple != null) {
       get();
@@ -65,7 +66,7 @@ class _CombinedProductsState extends State<CombinedProducts> {
       action: null,
       child: CarouselProducts(
         padding: EdgeInsets.symmetric(vertical: (posts.isEmpty) ? 0.0 : 15.0),
-        title: 'Birgə ala biləcəkləriniz',
+        title: 'Birgə ala biləcəkləriniz'.tr,
         posts: posts,
       ),
     );

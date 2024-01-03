@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:meqamax/components/app/appbar_back_button.dart';
 import 'package:meqamax/components/products/load_products.dart';
 import 'package:meqamax/pages/ecommerce/filter.dart';
 import 'package:meqamax/themes/ecommerce.dart';
+import 'package:meqamax/widgets/icon_button.dart';
 
 class NewProductsPage extends StatefulWidget {
   const NewProductsPage({super.key});
@@ -45,7 +45,7 @@ class _NewProductsPageState extends State<NewProductsPage> {
                   title: Text('Yeni məhsullar'.tr),
                   expandedHeight: 60.0,
                   toolbarHeight: 60.0,
-                  leading: (Navigator.canPop(context)) ? AppBarBackButton() : SizedBox(),
+                  leading: (Navigator.canPop(context)) ? MsIconButton(onTap: () => Navigator.of(context).pop()) : SizedBox(),
                 ),
               ];
             },

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:meqamax/classes/connection.dart';
 import 'package:meqamax/components/form/label.dart';
 import 'package:meqamax/controllers/login_controller.dart';
@@ -30,6 +31,7 @@ class _AddCommentPageState extends State<AddCommentPage> {
 
   bool success = false;
   bool buttonLoading = false;
+  bool ratingError = false;
   Map data = {};
 
   final loginController = Get.put(LoginController());
@@ -134,23 +136,38 @@ class _AddCommentPageState extends State<AddCommentPage> {
                         SizedBox(height: 15.0),
                       ],
                       FormLabel(label: 'Qiymətləndirmə'.tr),
-                      Row(
-                        children: [
-                          for (var i = 1; i <= 5; i++) ...[
-                            GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  rating = i;
-                                });
-                              },
-                              child: Icon(
-                                Icons.star,
-                                color: (rating >= i) ? Colors.orange : Colors.grey.withOpacity(.3),
-                              ),
-                            )
-                          ]
-                        ],
+                      Container(
+                        padding: (ratingError) ? EdgeInsets.symmetric(vertical: 10.0, horizontal: 7.0) : EdgeInsets.zero,
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                              color: (ratingError) ? Color(0xFF9d5e5b) : Colors.transparent,
+                            ),
+                            borderRadius: BorderRadius.circular(10.0)),
+                        child: Row(
+                          children: [
+                            for (var i = 1; i <= 5; i++) ...[
+                              GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    rating = i;
+                                    ratingError = false;
+                                  });
+                                },
+                                child: Icon(
+                                  Icons.star,
+                                  color: (rating >= i) ? Colors.orange : Colors.grey.withOpacity(.3),
+                                ),
+                              )
+                            ]
+                          ],
+                        ),
                       ),
+                      if (ratingError) ...[
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(20.0, 10.0, 0.0, 0.0),
+                          child: Text('Qiymətləndirmə qeyd etməmisiniz.'.tr, style: GoogleFonts.inter(fontSize: 12.0, color: Color(0xFF9d5e5b))),
+                        ),
+                      ],
                       SizedBox(height: 15.0),
                       FormLabel(label: 'Şərh'.tr),
                       TextFormField(
@@ -173,6 +190,11 @@ class _AddCommentPageState extends State<AddCommentPage> {
                                 buttonLoading = true;
                               });
                               send();
+                            }
+                            if (rating == 0) {
+                              setState(() {
+                                ratingError = true;
+                              });
                             }
                           },
                           loading: buttonLoading,

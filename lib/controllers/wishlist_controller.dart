@@ -11,7 +11,7 @@ class WishlistController {
   final loginController = Get.put(LoginController());
 
   Future<void> get() async {
-    var url = Uri.parse('${App.domain}/api/wishlist.php?action=list&session_key=${loginController.userId}');
+    var url = Uri.parse('${App.domain}/api/wishlist.php?action=list&session_key=${loginController.userId.value}');
     var response = await http.get(url);
     if (response.statusCode == 200) {
       var result = json.decode(utf8.decode(response.bodyBytes));

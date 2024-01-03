@@ -4,6 +4,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:meqamax/classes/connection.dart';
 import 'package:meqamax/components/products/load_products.dart';
 import 'package:meqamax/controllers/login_controller.dart';
+import 'package:meqamax/controllers/tabbar_controller.dart';
 import 'package:meqamax/controllers/wishlist_controller.dart';
 import 'package:meqamax/themes/theme.dart';
 import 'package:meqamax/widgets/appbar.dart';
@@ -27,8 +28,9 @@ class _WishlistPageState extends State<WishlistPage> {
   bool connectError = false;
   String error = '';
 
-  var loginController = Get.put(LoginController());
-  var wishlistController = Get.put(WishlistController());
+  final loginController = Get.put(LoginController());
+  final wishlistController = Get.put(WishlistController());
+  final tabBarController = Get.put(TabBarController());
   final box = GetStorage();
   GlobalKey loadProductsKey = GlobalKey();
 
@@ -93,7 +95,7 @@ class _WishlistPageState extends State<WishlistPage> {
                     return Future.value();
                   },
                   child: LoadProducts(
-                    key: loadProductsKey,
+                    key: (tabBarController.index.value != 2) ? loadProductsKey : Key(''),
                     multiple: wishlistController.wishlist.reversed.join(','),
                   ),
                 ),

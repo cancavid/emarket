@@ -9,7 +9,11 @@
     <application
         android:label="MeqaMax"
         android:name="${applicationName}"
-        android:icon="@mipmap/launcher_icon">
+        android:icon="@mipmap/launcher_icon"
+        android:launchMode="singleTask">
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/status_bar" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -45,10 +49,9 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <!-- Accepts URIs that begin with https://YOUR_HOST -->
-                <data
-                android:scheme="https"
-                android:host="fashion.betasayt.com" />
+
+                <data android:scheme="https" />
+                <data android:host="fashion.betasayt.com" />
             </intent-filter>
         </activity>
         <provider

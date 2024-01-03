@@ -159,6 +159,7 @@ class _FilterPageState extends State<FilterPage> {
                                                 final item = variables[attr].keys.elementAt(i);
 
                                                 return CheckboxListTile(
+                                                  activeColor: Theme.of(context).colorScheme.primaryColor,
                                                   value: localSelects.contains(item),
                                                   onChanged: (value) {
                                                     stateSetter(() {

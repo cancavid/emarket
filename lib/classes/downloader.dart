@@ -4,7 +4,6 @@ import 'dart:ui';
 
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class Downloader {
   static final Downloader _singleton = Downloader._internal();
@@ -74,24 +73,22 @@ class Downloader {
   }
 
   Future download(String url) async {
-    if (await checkPermission()) {
-      final uri = Uri.parse(url);
-      Directory directory = await getApplicationDocumentsDirectory();
-      if (Platform.isAndroid) {
-        directory = Directory('/storage/emulated/0/Download');
-      }
-      String filename = uri.pathSegments.last;
-      final fileName = await getFilenamePath(directory, filename);
-
-      var task = await FlutterDownloader.enqueue(
-        url: url,
-        headers: {'auth': 'test_for_sql_encoding'},
-        fileName: fileName,
-        savedDir: directory.path,
-        saveInPublicStorage: true, // Change this based on your needs
-      );
-      return task;
+    final uri = Uri.parse(url);
+    Directory directory = await getApplicationDocumentsDirectory();
+    if (Platform.isAndroid) {
+      directory = Directory('/storage/emulated/0/Download');
     }
+    String filename = uri.pathSegments.last;
+    final fileName = await getFilenamePath(directory, filename);
+
+    var task = await FlutterDownloader.enqueue(
+      url: url,
+      headers: {'auth': 'test_for_sql_encoding'},
+      fileName: fileName,
+      savedDir: directory.path,
+      saveInPublicStorage: true, // Change this based on your needs
+    );
+    return task;
   }
 
   Future<bool> openDownloadedFile(taskId) async {
@@ -100,23 +97,5 @@ class Downloader {
     }
 
     return FlutterDownloader.open(taskId: taskId);
-  }
-
-  Future<bool> checkPermission() async {
-    if (Platform.isIOS) {
-      return true;
-    }
-
-    if (Platform.isAndroid) {
-      final status = await Permission.storage.status;
-      if (status == PermissionStatus.granted) {
-        return true;
-      }
-
-      final result = await Permission.storage.request();
-      return result == PermissionStatus.granted;
-    }
-
-    throw StateError('unknown platform');
   }
 }

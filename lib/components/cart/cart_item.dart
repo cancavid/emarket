@@ -47,11 +47,7 @@ class CartItem extends StatelessWidget {
                     ),
                   ],
                   SizedBox(height: 8.0),
-                  if (variation) ...[
-                    displayPrice(data['data'], variation: true),
-                  ] else ...[
-                    displayPrice(data['data']),
-                  ],
+                  displayPrice(data['data'], variation: variation),
                   Spacer(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

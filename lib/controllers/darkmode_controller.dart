@@ -4,7 +4,7 @@ import 'package:get_storage/get_storage.dart';
 
 class DarkModeController {
   RxString mode = 'System'.obs;
-  RxMap modes = {'System': 'Sistemə uyğun', 'Light': 'Aydınlıq rejim', 'Dark': 'Qaranlıq rejim'}.obs;
+  RxMap modes = {'System': 'Sistemə uyğun'.tr, 'Light': 'Aydınlıq rejim'.tr, 'Dark': 'Qaranlıq rejim'.tr}.obs;
 
   final box = GetStorage();
 

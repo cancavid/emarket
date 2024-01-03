@@ -6,6 +6,7 @@ import 'package:meqamax/controllers/darkmode_controller.dart';
 class App {
   static String domain = 'https://fashion.betasayt.com';
   static String currency = '₼';
+  static String mapApiKey = 'AIzaSyCyqrHk415R_6l3b_9CjI_rsp1M9Ls_NcE';
 }
 
 class MsColors {

@@ -6,7 +6,7 @@ import 'package:meqamax/pages/ecommerce/single_order.dart';
 class NotificationService {
   static Future<void> initializeNotification() async {
     await AwesomeNotifications().initialize(
-      null,
+      'resource://drawable/status_bar',
       [
         NotificationChannel(
           channelGroupKey: 'high_importance_channel',
@@ -28,16 +28,16 @@ class NotificationService {
           channelGroupName: 'Group 1',
         )
       ],
-      debug: true,
+      debug: false,
     );
 
-    await AwesomeNotifications().isNotificationAllowed().then(
-      (isAllowed) async {
-        if (!isAllowed) {
-          await AwesomeNotifications().requestPermissionToSendNotifications();
-        }
-      },
-    );
+    // await AwesomeNotifications().isNotificationAllowed().then(
+    //   (isAllowed) async {
+    //     if (!isAllowed) {
+    //       await AwesomeNotifications().requestPermissionToSendNotifications();
+    //     }
+    //   },
+    // );
 
     await AwesomeNotifications().setListeners(
       onActionReceivedMethod: onActionReceivedMethod,

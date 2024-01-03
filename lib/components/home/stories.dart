@@ -43,6 +43,7 @@ class _StoriesState extends State<Stories> {
                           });
                           showDialog(
                             barrierColor: Colors.black.withOpacity(.7),
+                            useRootNavigator: false,
                             context: context,
                             builder: (context) {
                               return showStoryDetails(context);
@@ -91,7 +92,7 @@ class _StoriesState extends State<Stories> {
       direction: DismissDirection.down,
       onUpdate: (data) {
         if (data.progress >= 0.5) {
-          Get.back();
+          Navigator.of(context).popUntil((route) => route.isFirst);
         }
       },
       child: Stack(
@@ -109,12 +110,14 @@ class _StoriesState extends State<Stories> {
                   Positioned(
                     top: 0,
                     left: 0,
-                    child: Obx(() => AnimatedContainer(
-                          duration: Duration(milliseconds: storyController.duration.value),
-                          width: storyController.width.value,
-                          height: 2.0,
-                          color: Colors.white,
-                        )),
+                    child: Obx(
+                      () => AnimatedContainer(
+                        duration: Duration(milliseconds: storyController.duration.value),
+                        width: storyController.width.value,
+                        height: 2.0,
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -183,7 +186,7 @@ class _StoriesState extends State<Stories> {
             right: 0,
             child: GestureDetector(
               onTap: () {
-                Get.back();
+                Navigator.pop(context);
               },
               child: Container(
                 color: Theme.of(context).colorScheme.bg,

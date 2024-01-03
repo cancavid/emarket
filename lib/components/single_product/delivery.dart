@@ -1,5 +1,6 @@
+import 'package:meqamax/widgets/bottom_sheet.dart';
 import 'package:meqamax/widgets_extra/behaviour.dart';
-import 'package:meqamax/widgets/bottom_sheet_liner.dart';
+
 import 'package:meqamax/widgets/html.dart';
 import 'package:flutter/material.dart';
 
@@ -9,22 +10,19 @@ class DeliveryInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        MsBottomSheetLiner(),
-        Expanded(
-          child: ScrollConfiguration(
-            behavior: MyBehavior(),
-            child: ListView(
-              shrinkWrap: true,
-              padding: const EdgeInsets.all(20.0),
-              children: [
-                MsHtml(data: data),
-              ],
-            ),
+    return MsBottomSheet(
+      child: Expanded(
+        child: ScrollConfiguration(
+          behavior: MyBehavior(),
+          child: ListView(
+            shrinkWrap: true,
+            padding: const EdgeInsets.all(20.0),
+            children: [
+              MsHtml(data: data),
+            ],
           ),
         ),
-      ],
+      ),
     );
   }
 }

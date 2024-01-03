@@ -6,7 +6,7 @@ void navigatePage(BuildContext context, Widget screen, {root = false}) {
   Navigator.of(context, rootNavigator: root).push(
     MaterialPageRoute(
       builder: (context) => screen,
-      maintainState: false,
+      maintainState: true,
     ),
   );
 }

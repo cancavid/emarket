@@ -18,9 +18,7 @@ import 'package:meqamax/widgets/refresh_indicator.dart';
 import 'package:meqamax/widgets_extra/navigator.dart';
 
 class HomePage extends StatefulWidget {
-  final Function(int) changePage;
-
-  const HomePage({super.key, required this.changePage});
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -102,7 +100,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     return Scaffold(
       body: NestedScrollView(
         headerSliverBuilder: (context, scroll) {
-          return [HomeAppBar(changePage: widget.changePage)];
+          return [HomeAppBar()];
         },
         body: Container(
           color: const Color.fromARGB(255, 23, 83, 132),
@@ -129,9 +127,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           Carousel(slides: slides),
                           Stories(stories: stories),
                           SizedBox(height: 30.0),
-                          CarouselProducts(posts: newPosts, title: 'Yeni əlavə olunanlar', action: () => navigatePage(context, NewProductsPage())),
+                          CarouselProducts(posts: newPosts, title: 'Yeni əlavə olunanlar'.tr, action: () => navigatePage(context, NewProductsPage())),
                           SizedBox(height: 30.0),
-                          CarouselProducts(posts: trendPosts, title: 'Populyar məhsullar', action: () => navigatePage(context, PopularProductsPage())),
+                          CarouselProducts(posts: trendPosts, title: 'Populyar məhsullar'.tr, action: () => navigatePage(context, PopularProductsPage())),
                           SizedBox(height: 30.0),
                           HomeBrands(brands: brands),
                         ]),

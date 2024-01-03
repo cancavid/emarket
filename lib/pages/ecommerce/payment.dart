@@ -78,9 +78,11 @@ class _PaymentPageState extends State<PaymentPage> {
             setState(() {
               this.url = url;
             });
-            if (url == '${App.domain}/sifaris-detallari/') {
+            if (url.contains('/sifaris-detallari/')) {
+              Uri uri = Uri.parse(url);
+              String? id = uri.queryParameters['order'];
               Get.close(2);
-              Get.to(() => OrderDetailsPage(orderId: '16'));
+              Get.to(() => OrderDetailsPage(orderId: id!));
             }
           },
         ),
@@ -90,35 +92,30 @@ class _PaymentPageState extends State<PaymentPage> {
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      onPopInvoked: (didPop) async {
-        conditions();
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('Onlayn ödəniş'.tr),
-          leading: IconButton(
-              onPressed: () {
-                conditions();
-              },
-              icon: Icon(Icons.close)),
-        ),
-        body: Column(
-          children: [
-            if (showProgess) ...[
-              LinearProgressIndicator(
-                value: progressPercent,
-                color: Theme.of(context).colorScheme.primaryColor,
-                backgroundColor: Colors.white,
-              )
-            ],
-            Expanded(
-              child: WebViewWidget(
-                controller: controller,
-              ),
-            ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Onlayn ödəniş'.tr),
+        leading: IconButton(
+            onPressed: () {
+              conditions();
+            },
+            icon: Icon(Icons.close)),
+      ),
+      body: Column(
+        children: [
+          if (showProgess) ...[
+            LinearProgressIndicator(
+              value: progressPercent,
+              color: Theme.of(context).colorScheme.primaryColor,
+              backgroundColor: Colors.white,
+            )
           ],
-        ),
+          Expanded(
+            child: WebViewWidget(
+              controller: controller,
+            ),
+          ),
+        ],
       ),
     );
   }

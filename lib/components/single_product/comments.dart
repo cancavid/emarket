@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 import 'package:meqamax/classes/connection.dart';
 import 'package:meqamax/pages/ecommerce/add_comment.dart';
 import 'package:meqamax/themes/theme.dart';
+import 'package:meqamax/widgets/bottom_sheet.dart';
 import 'package:meqamax/widgets_extra/behaviour.dart';
-import 'package:meqamax/widgets/bottom_sheet_liner.dart';
 import 'package:meqamax/widgets/button.dart';
 import 'package:meqamax/widgets/container.dart';
 import 'package:meqamax/widgets/rating.dart';
@@ -68,85 +68,82 @@ class _ProductCommentsState extends State<ProductComments> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        MsBottomSheetLiner(),
-        Expanded(
-          child: MsContainer(
-              loading: loading,
-              serverError: serverError,
-              connectError: connectError,
-              action: null,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  (comments.isEmpty)
-                      ? Expanded(
-                          child: Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Şərhlər'.tr, style: Theme.of(context).textTheme.extraLargeHeading),
-                              SizedBox(height: 10.0),
-                              Text(error),
-                            ],
-                          ),
-                        ))
-                      : Expanded(
-                          child: ScrollConfiguration(
-                            behavior: MyBehavior(),
-                            child: ListView.separated(
-                              padding: const EdgeInsets.all(20.0),
-                              itemCount: comments.length,
-                              itemBuilder: (context, index) {
-                                return Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Expanded(child: Text(comments[index]['comment_author'])),
-                                        SizedBox(width: 15.0),
-                                        Text(
-                                          comments[index]['comment_date'],
-                                          style: TextStyle(fontSize: 11.0, color: Theme.of(context).colorScheme.grey2),
-                                        )
-                                      ],
-                                    ),
-                                    SizedBox(height: 5.0),
-                                    MsRating(value: double.parse(comments[index]['comment_rating'])),
-                                    SizedBox(height: 15.0),
-                                    Container(
-                                        padding: const EdgeInsets.all(15.0),
-                                        width: double.infinity,
-                                        decoration: BoxDecoration(
-                                          color: Theme.of(context).colorScheme.bg,
-                                          borderRadius: BorderRadius.circular(10.0),
-                                        ),
-                                        child: Text(comments[index]['comment_content'])),
-                                  ],
-                                );
-                              },
-                              separatorBuilder: (BuildContext context, int index) {
-                                return SizedBox(height: 20.0);
-                              },
-                            ),
+    return MsBottomSheet(
+      child: Expanded(
+        child: MsContainer(
+            loading: loading,
+            serverError: serverError,
+            connectError: connectError,
+            action: null,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                (comments.isEmpty)
+                    ? Expanded(
+                        child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Şərhlər'.tr, style: Theme.of(context).textTheme.extraLargeHeading),
+                            SizedBox(height: 10.0),
+                            Text(error),
+                          ],
+                        ),
+                      ))
+                    : Expanded(
+                        child: ScrollConfiguration(
+                          behavior: MyBehavior(),
+                          child: ListView.separated(
+                            padding: const EdgeInsets.all(20.0),
+                            itemCount: comments.length,
+                            itemBuilder: (context, index) {
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Expanded(child: Text(comments[index]['comment_author'])),
+                                      SizedBox(width: 15.0),
+                                      Text(
+                                        comments[index]['comment_date'],
+                                        style: TextStyle(fontSize: 11.0, color: Theme.of(context).colorScheme.grey2),
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(height: 5.0),
+                                  MsRating(value: double.parse(comments[index]['comment_rating'])),
+                                  SizedBox(height: 15.0),
+                                  Container(
+                                      padding: const EdgeInsets.all(15.0),
+                                      width: double.infinity,
+                                      decoration: BoxDecoration(
+                                        color: Theme.of(context).colorScheme.secondaryBg,
+                                        borderRadius: BorderRadius.circular(10.0),
+                                      ),
+                                      child: Text(comments[index]['comment_content'])),
+                                ],
+                              );
+                            },
+                            separatorBuilder: (BuildContext context, int index) {
+                              return SizedBox(height: 20.0);
+                            },
                           ),
                         ),
-                  Ink(
-                    padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
-                    color: Theme.of(context).colorScheme.secondaryBg,
-                    child: MsButton(
-                        onTap: () {
-                          Get.to(() => AddCommentPage(id: widget.id));
-                        },
-                        icon: true,
-                        title: 'Şərh bildir'.tr),
-                  )
-                ],
-              )),
-        ),
-      ],
+                      ),
+                Ink(
+                  padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+                  color: Theme.of(context).colorScheme.secondaryBg,
+                  child: MsButton(
+                      onTap: () {
+                        Get.to(() => AddCommentPage(id: widget.id));
+                      },
+                      icon: true,
+                      title: 'Şərh bildir'.tr),
+                )
+              ],
+            )),
+      ),
     );
   }
 }

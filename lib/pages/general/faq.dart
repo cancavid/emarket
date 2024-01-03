@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
-import 'package:meqamax/components/app/appbar_back_button.dart';
 import 'package:meqamax/widgets/accordion.dart';
+import 'package:meqamax/widgets/icon_button.dart';
 import 'package:meqamax/widgets_extra/behaviour.dart';
 import 'package:meqamax/widgets/container.dart';
 import 'package:flutter/material.dart';
@@ -83,7 +83,7 @@ class _FaqPageState extends State<FaqPage> {
       child: Scaffold(
           backgroundColor: Theme.of(context).colorScheme.secondaryBg,
           appBar: AppBar(
-            leading: AppBarBackButton(),
+            leading: MsIconButton(onTap: () => Navigator.of(context).pop()),
             title: Text('Ən çox soruşulan suallar'.tr),
             bottom: TabBar(
               isScrollable: true,

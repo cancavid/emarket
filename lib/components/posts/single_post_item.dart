@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:meqamax/pages/general/single_campaign.dart';
 import 'package:meqamax/themes/theme.dart';
 import 'package:meqamax/widgets/image.dart';
@@ -18,7 +17,10 @@ class _SingleCampaignItemState extends State<SingleCampaignItem> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(() => SingleCampaign(data: widget.data));
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => SingleCampaign(data: widget.data)),
+        );
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

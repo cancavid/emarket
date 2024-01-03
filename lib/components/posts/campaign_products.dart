@@ -13,9 +13,7 @@ class CampaignProducts extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 20.0),
-                child: Expanded(
-                  child: Text('Kampaniyaya aid məhsullar', style: Theme.of(context).textTheme.extraLargeHeading),
-                ),
+                child: Text('Kampaniyaya aid məhsullar', style: Theme.of(context).textTheme.extraLargeHeading),
               ),
               LoadProducts(
                 multiple: multiple,

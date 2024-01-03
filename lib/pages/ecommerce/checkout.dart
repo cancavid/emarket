@@ -12,6 +12,7 @@ import 'package:meqamax/themes/theme.dart';
 import 'package:meqamax/widgets/appbar.dart';
 import 'package:meqamax/widgets/button.dart';
 import 'package:meqamax/widgets/notify.dart';
+import 'package:meqamax/widgets/radio_listtile.dart';
 import 'package:meqamax/widgets_extra/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -110,8 +111,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
   }
 
   Future<void> getStreetName(double latitude, double longitude) async {
-    const apiKey = 'AIzaSyCyqrHk415R_6l3b_9CjI_rsp1M9Ls_NcE';
-    final apiUrl = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=$latitude,$longitude&key=$apiKey';
+    final apiUrl = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=$latitude,$longitude&key=${App.mapApiKey}';
 
     final response = await http.get(Uri.parse(apiUrl));
     if (response.statusCode == 200) {
@@ -320,10 +320,11 @@ class _CheckoutPageState extends State<CheckoutPage> {
                             onTap: () {
                               setState(() {
                                 _addressController.text = '';
+                                readOnlyAddress = false;
                                 latlng = [];
                               });
                             },
-                            child: Text('Təmizlə'),
+                            child: Text('Təmizlə'.tr),
                           )
                         ]
                       ],
@@ -358,24 +359,24 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   ),
                   SizedBox(height: 15.0),
                   FormLabel(label: 'Ödəniş forması'.tr),
-                  RadioListTile(
-                      title: Text('Qapıda nağd ödəniş'.tr),
+                  MsRadioListTile(
+                      title: 'Qapıda nağd ödəniş'.tr,
                       value: 'offline',
                       groupValue: method,
-                      contentPadding: EdgeInsets.all(0),
+                      padding: EdgeInsets.zero,
                       onChanged: (value) {
                         setState(() {
-                          method = value!;
+                          method = value;
                         });
                       }),
-                  RadioListTile(
-                      title: Text('Onlayn ödəniş'.tr),
+                  MsRadioListTile(
+                      title: 'Onlayn ödəniş'.tr,
                       value: 'online',
                       groupValue: method,
-                      contentPadding: EdgeInsets.all(0),
+                      padding: EdgeInsets.zero,
                       onChanged: (value) {
                         setState(() {
-                          method = value!;
+                          method = value;
                         });
                       })
                 ],

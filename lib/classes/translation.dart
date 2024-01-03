@@ -207,6 +207,9 @@ final Map strings = {
   'Ödəniş edilməyib': ['Not paid', 'Не оплачено'],
   'Kuryerə verildi': ['Sent to courier', 'Отправлено курьеру'],
 
+  // Component Home AppBar
+  'Xoş gördük!': ['Welcome!', 'Добро пожаловать!'],
+
   // Component Home Brands
   'Populyar brendlər': ['Popular brands', 'Популярные бренды'],
 
@@ -233,6 +236,9 @@ final Map strings = {
   // Component Products Load Products
   'Göstəriləcək başqa məhsul yoxdur.': ['No other products to display.', 'Отображаемых других продуктов нет.'],
 
+  // Component Products Carousel Products
+  'Hamısı': ['View all', 'Все'],
+
   // Component Products Single Product Item
   'Bitib': ['Out of stock', 'Распродано'],
 
@@ -240,10 +246,6 @@ final Map strings = {
   'Whatsapp': ['Whatsapp', 'WhatsApp'],
   'Instagram': ['Instagram', 'Instagram'],
   'Telegram': ['Telegram', 'Telegram'],
-
-  // Component Settings BottomSheets DarkMode
-  'Sistemə uyğun': ['System Default', 'По умолчанию системы'],
-  'Aydınlıq rejim': ['Light Mode', 'Светлый режим'],
 
   // Component Settings Logout Alert
   'Hesabınızdan çıxış etmək istədiyinizə əminsinizmi?': ['Are you sure you want to log out from your account?', 'Вы уверены, что хотите выйти из своей учетной записи?'],
@@ -262,6 +264,9 @@ final Map strings = {
 
   // Component Single Product Variation
   'Məhsul bitib': ['Out of stock', 'Распродано'],
+
+  // Component Single Product Combine Related Products
+  'Birgə ala biləcəkləriniz': ['What you can buy together', 'Что можно купить вместе'],
 
   // Main
   'Çıxış etmək istəyirsiniz?': ['Do you want to log out?', 'Хотите выйти?'],
@@ -283,6 +288,10 @@ final Map strings = {
 
   // Components Single Product Variation
   'product_stock': ['@count is left', '@count осталось'],
+
+  // DarkMode Controller
+  'Sistemə uyğun': ['System Default', 'По умолчанию системы'],
+  'Aydınlıq rejim': ['Light Mode', 'Светлый режим'],
 };
 
 class TranslationService extends Translations {

@@ -152,6 +152,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                               MsSvgIcon(
                                 icon: 'assets/interface/right.svg',
                                 size: 12.0,
+                                color: Theme.of(context).colorScheme.grey1,
                               )
                             ],
                           ),

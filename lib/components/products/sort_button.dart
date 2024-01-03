@@ -1,7 +1,7 @@
 import 'package:meqamax/themes/ecommerce.dart';
 import 'package:meqamax/themes/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:meqamax/widgets/bottom_sheet_liner.dart';
+import 'package:meqamax/widgets/bottom_sheet.dart';
 import 'package:meqamax/widgets/radio_listtile.dart';
 
 class SortButton extends StatefulWidget {
@@ -33,33 +33,30 @@ class _SortButtonState extends State<SortButton> {
             showModalBottomSheet(
               context: context,
               builder: (context) {
-                return Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    MsBottomSheetLiner(),
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: sorts.keys.map((key) {
-                        List<dynamic> sort = sorts[key]!;
+                return MsBottomSheet(
+                  linerHeight: 15.0,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: sorts.keys.map((key) {
+                      List<dynamic> sort = sorts[key]!;
 
-                        return MsRadioListTile(
-                          title: sort[0],
-                          value: key,
-                          groupValue: selectedSort,
-                          onChanged: (value) {
-                            if (mounted) {
-                              setState(() {
-                                selectedSort = value;
-                              });
-                            }
-                            Navigator.of(context).pop();
-                            widget.onChanged(value);
-                          },
-                        );
-                      }).toList(),
-                    ),
-                  ],
+                      return MsRadioListTile(
+                        title: sort[0],
+                        value: key,
+                        groupValue: selectedSort,
+                        onChanged: (value) {
+                          if (mounted) {
+                            setState(() {
+                              selectedSort = value;
+                            });
+                          }
+                          Navigator.of(context).pop();
+                          widget.onChanged(value);
+                        },
+                      );
+                    }).toList(),
+                  ),
                 );
               },
             );

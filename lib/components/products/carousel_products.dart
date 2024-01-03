@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:meqamax/components/products/single_product_item.dart';
 import 'package:meqamax/themes/theme.dart';
 
@@ -28,9 +29,10 @@ class CarouselProducts extends StatelessWidget {
                         ),
                       ],
                       if (action != null) ...[
+                        SizedBox(width: 15.0),
                         GestureDetector(
                           onTap: action,
-                          child: Text('Hamısı', style: Theme.of(context).textTheme.link),
+                          child: Text('Hamısı'.tr, style: Theme.of(context).textTheme.link),
                         )
                       ],
                     ],

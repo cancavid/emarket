@@ -9,6 +9,8 @@ import 'package:meqamax/controllers/cart_controller.dart';
 import 'package:meqamax/controllers/darkmode_controller.dart';
 import 'package:meqamax/controllers/language_controller.dart';
 import 'package:meqamax/controllers/login_controller.dart';
+import 'package:meqamax/controllers/notifications_controller.dart';
+import 'package:meqamax/controllers/tabbar_controller.dart';
 import 'package:meqamax/controllers/welcome_controller.dart';
 import 'package:meqamax/controllers/wishlist_controller.dart';
 import 'package:meqamax/pages/ecommerce/cart.dart';
@@ -24,17 +26,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await NotificationService.initializeNotification();
 
   await Firebase.initializeApp(options: const FirebaseOptions(apiKey: 'AIzaSyDbaickXqCZmadLhAujth9vzX1E_4YlTX8', appId: '1:1051635045248:android:4b0412ec5c44ce531ba765', messagingSenderId: '1051635045248', projectId: 'meqamax-9ef70'));
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   await messaging.requestPermission();
+
+  await NotificationService.initializeNotification();
+
   FirebaseMessaging.instance.subscribeToTopic("all");
 
-  FirebaseMessaging.onBackgroundMessage(firebaseBackgroundMessage);
+  // FirebaseMessaging.onBackgroundMessage(firebaseBackgroundMessage);
 
   FirebaseMessaging.onMessage.listen(firebaseBackgroundMessage);
 
@@ -43,17 +48,22 @@ void main() async {
   });
 
   await FlutterDownloader.initialize(
-      debug: true, // optional: set to false to disable printing logs to console (default: true)
-      ignoreSsl: true // option: set to false to disable working with http links (default: false)
-      );
+    debug: true,
+    ignoreSsl: true,
+  );
 
   await GetStorage.init();
   runApp(const MyApp());
 }
 
 Future<void> firebaseBackgroundMessage(RemoteMessage message) async {
-  Map<String, String>? payload = message.data.map((key, value) => MapEntry(key, value.toString()));
-  NotificationService.showNotification(title: message.notification!.title ?? '', body: message.notification!.body ?? '', payload: payload, bigPicture: payload['image']);
+  var status = Permission.notification.status;
+  if (await status.isGranted) {
+    Map<String, String>? payload = message.data.map((key, value) => MapEntry(key, value.toString()));
+    NotificationService.showNotification(title: message.notification!.title ?? '', body: message.notification!.body ?? '', payload: payload, bigPicture: payload['image']);
+    final notificationController = Get.put(NotificationController());
+    notificationController.get();
+  }
 }
 
 class MyApp extends StatefulWidget {
@@ -64,12 +74,16 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  var loginController = Get.put(LoginController());
-  var darkmodeController = Get.put(DarkModeController());
-  var welcomeController = Get.put(WelcomeController());
-  var wishlistController = Get.put(WishlistController());
-  var cartController = Get.put(CartController());
-  var languageController = Get.put(LanguageController());
+  static final navigatorKey = GlobalKey<NavigatorState>();
+
+  final loginController = Get.put(LoginController());
+  final darkmodeController = Get.put(DarkModeController());
+  final welcomeController = Get.put(WelcomeController());
+  final wishlistController = Get.put(WishlistController());
+  final cartController = Get.put(CartController());
+  final languageController = Get.put(LanguageController());
+  final tabBarController = Get.put(TabBarController());
+  final notificationController = Get.put(NotificationController());
 
   final GlobalKey<NavigatorState> firstTabNavKey = GlobalKey<NavigatorState>();
   final GlobalKey<NavigatorState> secondTabNavKey = GlobalKey<NavigatorState>();
@@ -79,7 +93,6 @@ class _MyAppState extends State<MyApp> {
 
   late CupertinoTabController tabController;
 
-  int selectedIndex = 0;
   late List pages;
   late List listOfKeys;
 
@@ -87,12 +100,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
 
-    setToken();
-    darkmodeController.get();
-    welcomeController.get();
-    cartController.get();
-    wishlistController.get();
-    languageController.get();
+    getControllers();
 
     tabController = CupertinoTabController(initialIndex: 0);
 
@@ -106,7 +114,7 @@ class _MyAppState extends State<MyApp> {
     });
 
     pages = [
-      HomePage(changePage: changePage),
+      HomePage(),
       CategoriesPage(),
       WishlistPage(),
       CartPage(),
@@ -115,26 +123,42 @@ class _MyAppState extends State<MyApp> {
 
     listOfKeys = [firstTabNavKey, secondTabNavKey, thirdTabNavKey, fourthTabNavKey, fifthTabNavKey];
 
-    backgroundNotification();
+    requestPermissions();
+    // backgroundNotification();
   }
 
-  void setToken() async {
-    String? token = await FirebaseMessaging.instance.getToken();
-    loginController.get(tokenValue: token);
+  void getControllers() async {
+    var status = Permission.notification.status;
+    if (await status.isGranted) {
+      String? token = await FirebaseMessaging.instance.getToken();
+      loginController.get(tokenValue: token);
+    } else {
+      loginController.get();
+    }
+    darkmodeController.get();
+    welcomeController.get();
+    cartController.get();
+    wishlistController.get();
+    languageController.get();
+    notificationController.get();
   }
 
   void backgroundNotification() async {
-    RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
-    if (initialMessage != null) {
-      NotificationService.openNofication(initialMessage.data);
+    var status = Permission.notification.status;
+    if (await status.isGranted) {
+      RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
+      if (initialMessage != null) {
+        NotificationService.openNofication(initialMessage.data);
+      }
     }
   }
 
-  void changePage(index) {
-    setState(() {
-      selectedIndex = index;
-      tabController.index = index;
-    });
+  Future<void> requestPermissions() async {
+    Map<Permission, PermissionStatus> statuses = await [
+      Permission.notification,
+      Permission.storage,
+    ].request();
+    statuses.forEach((permission, status) {});
   }
 
   @override
@@ -142,6 +166,7 @@ class _MyAppState extends State<MyApp> {
     Brightness brightness = MediaQuery.of(context).platformBrightness;
 
     return GetMaterialApp(
+      navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
       translations: TranslationService(),
       locale: Locale(languageController.lang.value, languageController.lang.value.toUpperCase()),
@@ -163,7 +188,7 @@ class _MyAppState extends State<MyApp> {
                 controller: tabController,
                 tabBar: CupertinoTabBar(
                   onTap: (index) {
-                    if (index == selectedIndex) {
+                    if (index == tabBarController.index.value) {
                       if (index == 0) {
                         firstTabNavKey.currentState?.popUntil((r) => r.isFirst);
                       } else if (index == 1) {
@@ -176,19 +201,17 @@ class _MyAppState extends State<MyApp> {
                         fifthTabNavKey.currentState?.popUntil((r) => r.isFirst);
                       }
                     }
-                    setState(() {
-                      selectedIndex = index;
-                    });
+                    tabBarController.update(index);
                   },
                   border: Border(bottom: BorderSide(color: Colors.transparent)),
                   height: 80.0,
                   backgroundColor: (darkmodeController.mode.value == 'Dark') ? MsColors.darkSecondaryBg : MsColors.lightSecondaryBg,
                   items: [
-                    BottomNavigationBarItem(icon: MsBottomNavItem(icon: 'home.svg', label: 'Əsas səhifə'.tr, index: 0, selected: selectedIndex)),
-                    BottomNavigationBarItem(icon: MsBottomNavItem(icon: 'category.svg', label: 'Kataloq'.tr, index: 1, selected: selectedIndex)),
-                    BottomNavigationBarItem(icon: MsBottomNavItem(icon: 'favorite.svg', label: 'İstək listi'.tr, index: 2, selected: selectedIndex, badge: wishlistController.quantity.value)),
-                    BottomNavigationBarItem(icon: MsBottomNavItem(icon: 'cart.svg', label: 'Səbət'.tr, index: 3, selected: selectedIndex, badge: cartController.quantity.value)),
-                    BottomNavigationBarItem(icon: MsBottomNavItem(icon: 'profile.svg', label: 'Hesabım'.tr, index: 4, selected: selectedIndex)),
+                    BottomNavigationBarItem(icon: MsBottomNavItem(icon: 'home.svg', label: 'Əsas səhifə'.tr, index: 0, selected: tabBarController.index.value)),
+                    BottomNavigationBarItem(icon: MsBottomNavItem(icon: 'category.svg', label: 'Kataloq'.tr, index: 1, selected: tabBarController.index.value)),
+                    BottomNavigationBarItem(icon: MsBottomNavItem(icon: 'favorite.svg', label: 'İstək listi'.tr, index: 2, selected: tabBarController.index.value, badge: wishlistController.quantity.value)),
+                    BottomNavigationBarItem(icon: MsBottomNavItem(icon: 'cart.svg', label: 'Səbət'.tr, index: 3, selected: tabBarController.index.value, badge: cartController.quantity.value)),
+                    BottomNavigationBarItem(icon: MsBottomNavItem(icon: 'profile.svg', label: 'Hesabım'.tr, index: 4, selected: tabBarController.index.value)),
                   ],
                 ),
                 tabBuilder: (context, index) {
@@ -196,7 +219,7 @@ class _MyAppState extends State<MyApp> {
                     routes: Routes.routes,
                     navigatorKey: listOfKeys[index],
                     builder: (context) {
-                      return CupertinoPageScaffold(child: pages[index]);
+                      return pages[index];
                     },
                   );
                 },

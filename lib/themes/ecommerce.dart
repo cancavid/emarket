@@ -22,8 +22,8 @@ fixedPrice(price) {
   }
 }
 
-displayPrice(data, {type = 'simple', variation = false}) {
-  if (data.containsKey('product_type') && data['product_type'] == 'variable') {
+displayPrice(data, {type = 'simple', range = false, variation = false}) {
+  if (range) {
     return Text('${data['price_range']} ${App.currency}', style: GoogleFonts.inter(height: 1.0, fontWeight: FontWeight.w600, fontSize: (type == 'simple') ? 13.0 : 16.0));
   } else {
     String price = '';

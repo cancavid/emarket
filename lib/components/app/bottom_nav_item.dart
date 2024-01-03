@@ -14,7 +14,7 @@ class MsBottomNavItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String finalIcon = icon;
-    Color color = Theme.of(context).colorScheme.grey2;
+    Color color = Theme.of(context).colorScheme.grey1;
 
     if (index == selected) {
       finalIcon = 'bold-$icon';

@@ -116,7 +116,7 @@ class _ProductGallerySliderState extends State<ProductGallerySlider> {
       Positioned(
         bottom: 10.0,
         left: 10.0,
-        child: SingleProductVideo(),
+        child: SingleProductVideo(data: widget.data),
       )
     ]);
   }
