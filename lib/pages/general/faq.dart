@@ -83,7 +83,10 @@ class _FaqPageState extends State<FaqPage> {
       child: Scaffold(
           backgroundColor: Theme.of(context).colorScheme.secondaryBg,
           appBar: AppBar(
-            leading: MsIconButton(onTap: () => Navigator.of(context).pop()),
+            leading: MsIconButton(
+              margin: const EdgeInsets.only(left: 10.0),
+              onTap: () => Navigator.of(context).pop(),
+            ),
             title: Text('Ən çox soruşulan suallar'.tr),
             bottom: TabBar(
               isScrollable: true,

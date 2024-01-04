@@ -4,6 +4,7 @@ import 'package:meqamax/classes/connection.dart';
 import 'package:meqamax/themes/ecommerce.dart';
 import 'package:meqamax/themes/functions.dart';
 import 'package:meqamax/themes/theme.dart';
+import 'package:meqamax/widgets/appbar.dart';
 import 'package:meqamax/widgets_extra/behaviour.dart';
 import 'package:meqamax/widgets/button.dart';
 import 'package:meqamax/widgets/container.dart';
@@ -85,10 +86,10 @@ class _FilterPageState extends State<FilterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Filter'.tr),
-        actions: [
-          GestureDetector(
+      appBar: MsAppBar(
+          title: 'Filter'.tr,
+          action: InkWell(
+            customBorder: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
             onTap: () {
               setState(() {
                 selecteds.forEach((key, value) {
@@ -100,16 +101,12 @@ class _FilterPageState extends State<FilterPage> {
                 localSelects = [];
               });
             },
-            child: Material(
-                color: Colors.transparent,
-                child: Container(
-                  margin: const EdgeInsets.only(right: 20.0),
-                  alignment: Alignment.center,
-                  child: Text('Təmizlə'.tr),
-                )),
-          )
-        ],
-      ),
+            child: Container(
+              padding: const EdgeInsets.all(10.0),
+              alignment: Alignment.center,
+              child: Text('Təmizlə'.tr),
+            ),
+          )),
       body: MsContainer(
         loading: loading,
         serverError: serverError,

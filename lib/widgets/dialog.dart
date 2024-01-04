@@ -4,7 +4,7 @@ import 'package:meqamax/themes/theme.dart';
 class MsDialog extends StatelessWidget {
   final String? title;
   final String? content;
-  final Widget? actions;
+  final List<Widget>? actions;
   const MsDialog({super.key, this.title, this.content, this.actions});
 
   @override
@@ -25,7 +25,12 @@ class MsDialog extends StatelessWidget {
               SizedBox(height: 10.0),
             ],
             if (actions != null) ...[
-              Transform(transform: Matrix4.translationValues(10.0, 0.0, 0.0), child: actions!),
+              Transform(
+                  transform: Matrix4.translationValues(10.0, 0.0, 0.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: actions!,
+                  )),
             ]
           ],
         ),

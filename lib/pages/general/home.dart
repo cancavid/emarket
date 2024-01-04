@@ -103,7 +103,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           return [HomeAppBar()];
         },
         body: Container(
-          color: const Color.fromARGB(255, 23, 83, 132),
+          color: Color.fromARGB(255, 23, 63, 172),
           child: Container(
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.secondaryBg,

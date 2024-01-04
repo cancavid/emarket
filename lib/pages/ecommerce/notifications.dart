@@ -7,6 +7,8 @@ import 'package:meqamax/controllers/notifications_controller.dart';
 import 'package:meqamax/themes/theme.dart';
 import 'package:meqamax/widgets/appbar.dart';
 import 'package:meqamax/widgets/icon_button.dart';
+import 'package:meqamax/widgets/refresh_indicator.dart';
+import 'package:meqamax/widgets/scrollable_widget.dart';
 
 class NotificationsPage extends StatefulWidget {
   const NotificationsPage({super.key});
@@ -36,15 +38,20 @@ class _NotificationsPageState extends State<NotificationsPage> {
           tooltip: 'Görüldü et'.tr,
         ),
       ),
-      body: RefreshIndicator(
+      body: MsRefreshIndicator(
         onRefresh: () {
           _refreshPage();
           return Future.value();
         },
         child: Obx(() => (notificationController.notifications.isEmpty)
-            ? Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Text('Heç bir bildiriş hazırda mövcud deyil.'),
+            ? MsRefreshIndicator(
+                onRefresh: () {
+                  notificationController.get();
+                  return Future.value();
+                },
+                child: MsScrollableWidget(
+                  child: Text('Heç bir bildiriş hazırda mövcud deyil.'),
+                ),
               )
             : ListView.builder(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),

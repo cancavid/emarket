@@ -96,7 +96,12 @@ class _SingleTaxonomyPageState extends State<SingleTaxonomyPage> {
                   title: Text(title),
                   expandedHeight: 60.0,
                   toolbarHeight: 60.0,
-                  leading: (Navigator.canPop(context)) ? MsIconButton(onTap: () => Navigator.of(context).pop()) : SizedBox(),
+                  leading: (Navigator.canPop(context))
+                      ? MsIconButton(
+                          margin: const EdgeInsets.only(left: 10.0),
+                          onTap: () => Navigator.of(context).pop(),
+                        )
+                      : SizedBox(),
                 ),
               ];
             },

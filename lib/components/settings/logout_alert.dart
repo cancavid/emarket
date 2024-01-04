@@ -16,25 +16,24 @@ class LogoutAlert extends StatelessWidget {
   Widget build(BuildContext context) {
     return MsDialog(
       content: "Hesabınızdan çıxış etmək istədiyinizə əminsinizmi?".tr,
-      actions: Row(
-        children: [
-          TextButton(
-            child: Text("Xeyr".tr),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          TextButton(
-            child: Text("Bəli".tr),
-            onPressed: () {
-              loginController.logout();
-              cartController.get();
-              wishlistController.get();
-              Navigator.pop(context);
-            },
-          ),
-        ],
-      ),
+      actions: [
+        TextButton(
+          child: Text("Xeyr".tr),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        SizedBox(width: 10.0),
+        TextButton(
+          child: Text("Bəli".tr),
+          onPressed: () {
+            loginController.logout();
+            cartController.get();
+            wishlistController.get();
+            Navigator.pop(context);
+          },
+        ),
+      ],
     );
   }
 }

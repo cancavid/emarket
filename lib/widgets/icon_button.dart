@@ -7,29 +7,31 @@ class MsIconButton extends StatelessWidget {
   final String? image;
   final IconData? icon;
   final String? tooltip;
-  const MsIconButton({super.key, required this.onTap, this.image, this.icon, this.tooltip});
+  final double size;
+  final EdgeInsets? margin;
+  const MsIconButton({super.key, required this.onTap, this.image, this.icon, this.tooltip, this.size = 40.0, this.margin});
 
   @override
   Widget build(BuildContext context) {
-    return Tooltip(
-      message: tooltip ?? '',
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: Theme.of(context).colorScheme.grey4),
-          borderRadius: BorderRadius.circular(50.0),
-        ),
-        child: CircleAvatar(
-          radius: 20.0,
-          backgroundColor: Theme.of(context).colorScheme.secondaryBg, // Set the color of the circle
-          child: IconButton(
-            icon: (image != null)
-                ? MsSvgIcon(icon: image!)
+    return Center(
+      child: Tooltip(
+        message: tooltip ?? '',
+        child: Container(
+          margin: margin,
+          width: size,
+          height: size,
+          decoration: BoxDecoration(
+            border: Border.all(color: Theme.of(context).colorScheme.grey4),
+            borderRadius: BorderRadius.circular(50.0),
+          ),
+          child: InkWell(
+            customBorder: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0)),
+            onTap: onTap,
+            child: (image != null)
+                ? MsSvgIcon(icon: image!, size: 19.0)
                 : (icon != null)
-                    ? Icon(icon)
-                    : Icon(Icons.arrow_back),
-            color: Theme.of(context).colorScheme.text,
-            iconSize: 19.0,
-            onPressed: onTap,
+                    ? Icon(icon, size: 19.0)
+                    : Icon(Icons.arrow_back, size: 19.0),
           ),
         ),
       ),

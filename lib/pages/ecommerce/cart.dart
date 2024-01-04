@@ -172,14 +172,15 @@ class _CartPageState extends State<CartPage> {
                             ),
                             if (mainLoading) ...[
                               Positioned.fill(
-                                  child: Container(
-                                width: double.infinity,
-                                height: double.infinity,
-                                color: Theme.of(context).colorScheme.secondaryBg.withOpacity(.85),
-                                child: Center(
-                                  child: MsIndicator(),
+                                child: Container(
+                                  width: double.infinity,
+                                  height: double.infinity,
+                                  color: Theme.of(context).colorScheme.secondaryBg.withOpacity(.85),
+                                  child: Center(
+                                    child: MsIndicator(),
+                                  ),
                                 ),
-                              ))
+                              )
                             ]
                           ],
                         ),

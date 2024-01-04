@@ -5,7 +5,7 @@ import 'package:meqamax/components/settings/profile_image.dart';
 import 'package:meqamax/controllers/login_controller.dart';
 import 'package:meqamax/controllers/notifications_controller.dart';
 import 'package:meqamax/controllers/tabbar_controller.dart';
-import 'package:meqamax/pages/general/notifications.dart';
+import 'package:meqamax/pages/ecommerce/notifications.dart';
 import 'package:meqamax/pages/general/search.dart';
 import 'package:meqamax/pages/login/login.dart';
 import 'package:meqamax/themes/theme.dart';
@@ -34,7 +34,7 @@ class _HomeAppBarState extends State<HomeAppBar> {
               padding: const EdgeInsets.all(20.0),
               alignment: Alignment.bottomLeft,
               height: double.infinity,
-              color: const Color.fromARGB(255, 23, 83, 132),
+              color: Color.fromARGB(255, 23, 63, 172),
               child: Text(
                 'Ən yaxşı məhsul kataloqları'.tr,
                 style: GoogleFonts.inter(fontSize: 26.0, color: Colors.white, fontWeight: FontWeight.w500, height: 1.3),

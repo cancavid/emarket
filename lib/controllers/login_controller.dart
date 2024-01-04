@@ -69,6 +69,8 @@ class LoginController {
     if (response.statusCode == 200) {
       var result = json.decode(utf8.decode(response.bodyBytes));
       if (result['status'] == 'success') {
+        box.write('userId', result['result']);
+        box.write('guestId', result['result']);
         userId.value = result['result'];
         guestId.value = result['result'];
       } else {

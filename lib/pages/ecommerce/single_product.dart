@@ -11,6 +11,7 @@ import 'package:meqamax/controllers/cart_controller.dart';
 import 'package:meqamax/controllers/login_controller.dart';
 import 'package:meqamax/controllers/wishlist_controller.dart';
 import 'package:meqamax/themes/theme.dart';
+import 'package:meqamax/widgets/refresh_indicator.dart';
 import 'package:meqamax/widgets_extra/behaviour.dart';
 import 'package:meqamax/widgets/container.dart';
 import 'package:meqamax/widgets/notify.dart';
@@ -240,7 +241,7 @@ class _SingleProductPageState extends State<SingleProductPage> {
           action: _refreshPage,
           child: (error != '')
               ? MsNotify(heading: error)
-              : RefreshIndicator(
+              : MsRefreshIndicator(
                   onRefresh: () {
                     _refreshPage();
                     return Future.value();

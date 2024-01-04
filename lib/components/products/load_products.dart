@@ -11,6 +11,7 @@ import 'package:http/http.dart' as http;
 import 'package:meqamax/classes/connection.dart';
 import 'package:meqamax/themes/theme.dart';
 import 'package:meqamax/widgets/container.dart';
+import 'package:meqamax/widgets/refresh_indicator.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 class LoadProducts extends StatefulWidget {
@@ -152,7 +153,7 @@ class _LoadProductsState extends State<LoadProducts> {
         serverError: serverError,
         connectError: connectError,
         action: _refreshPage,
-        child: RefreshIndicator(
+        child: MsRefreshIndicator(
           onRefresh: () {
             _refreshPage();
             return Future.value();

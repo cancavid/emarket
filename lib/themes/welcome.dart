@@ -16,9 +16,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   var welcomeController = Get.put(WelcomeController());
 
   List items = [
-    {"heading": "Ən son yeniliklərdən anbaan xəbərdar olun", "description": "Hava, biznes, əyləncə və siyasət haqqında ən son xəbərləri və məlumatları birbaşa əldə edin.", "image": 'assets/welcome/welcome_01.png'},
-    {"heading": "Sizi ən çox maraqlandıran mövzulara nəzər yetirin ", "description": "Bütün dünyadakı mənbələrdən toplanmış hərtərəfli müasir xəbərlərlə tanış olun.", "image": 'assets/welcome/welcome_02.png'},
-    {"heading": "Bənzər mövzulardakı oxşar xəbərləri analiz edin", "description": "Çoxfunksional və yenilikçi tətbiq alətlərimizi kəşf edərək xəbər təcrübənizdən maksimum yararlanın.", "image": 'assets/welcome/welcome_03.png'},
+    {"heading": "Onlayn alış-verişin üstünlüklərindən yararlanın", "description": "Rahat, sürətli, etibarlı mobil alış-veriş təcrübəsi yaşayın", "image": 'assets/welcome/welcome_01.png'},
+    {"heading": "Məhsullarınızı istək listinə və səbətə əlavə edin ", "description": "Bəyəndiyiniz məhsulları istək listinə və səbətə əlavə edərək istədiyiniz zaman sifariş edin", "image": 'assets/welcome/welcome_02.png'},
+    {"heading": "Təhlükəsiz ödəmə üsulları ilə sifarişlərinizi tamamlayın", "description": "Onlayn kredit kartları və ya çatdırılma zamanı nağd ödənişlərinizi edin", "image": 'assets/welcome/welcome_03.png'},
   ];
 
   double progress = 0;
@@ -70,9 +70,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                 children: [
                                   Text(
                                     items[index]['heading'],
-                                    style: Theme.of(context).textTheme.headlineMedium,
+                                    style: Theme.of(context).textTheme.largeHeading,
                                     textAlign: TextAlign.center,
-                                    maxLines: 2,
+                                    maxLines: 3,
                                   ),
                                   const SizedBox(height: 30.0),
                                   Text(
@@ -138,19 +138,15 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               ],
             ),
             Positioned(
-              top: 0.0,
+              top: 10.0,
               right: 0.0,
-              child: InkWell(
-                borderRadius: BorderRadius.circular(50.0),
-                onTap: () {
+              child: TextButton(
+                onPressed: () {
                   welcomeController.update(false);
                 },
-                child: Container(
-                  padding: const EdgeInsets.all(25.0),
-                  child: Text(
-                    'Keç',
-                    style: TextStyle(color: Theme.of(context).colorScheme.grey1, fontWeight: FontWeight.w600),
-                  ),
+                child: Text(
+                  'Keç'.tr,
+                  style: TextStyle(color: Theme.of(context).colorScheme.grey1, fontWeight: FontWeight.w600),
                 ),
               ),
             ),
